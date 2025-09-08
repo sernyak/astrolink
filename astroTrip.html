@@ -92,7 +92,8 @@
         h1 {
             font-size: 2.6em;
             color: var(--header-color);
-            text-shadow: 0 0 6px rgba(255, 196, 232, 0.6); /* Sharper glow */
+            /* REVERTED: Soft Glow Effect */
+            text-shadow: 0 0 10px rgba(255, 196, 232, 0.5);
             border-bottom: 1px solid var(--border-color);
             margin-bottom: 40px;
         }
@@ -100,7 +101,8 @@
         h2 {
             font-size: 1.9em;
             color: var(--header-color);
-            text-shadow: 0 0 4px rgba(255, 196, 232, 0.5); /* Sharper glow */
+            /* REVERTED: Soft Glow Effect */
+            text-shadow: 0 0 8px var(--header-color);
         }
         
         p {
@@ -113,6 +115,27 @@
             color: #f7d8ef;
             font-weight: 600;
         }
+        
+        /* --- NEW: Permission Button Style --- */
+        #permission-button {
+            display: block;
+            margin: -20px auto 30px auto;
+            padding: 10px 20px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1em;
+            color: var(--header-color);
+            background-color: rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        #permission-button:hover {
+            background-color: rgba(255, 196, 232, 0.2);
+            box-shadow: 0 0 15px rgba(255, 196, 232, 0.3);
+        }
+
 
         .section-break {
             border: 0;
@@ -157,6 +180,10 @@
     <div id="stars3" class="stars" data-speed="60"></div>
 
     <div class="container">
+        
+        <!-- NEW: Permission Button -->
+        <button id="permission-button">✨ Активувати магію ✨</button>
+
         <h1>Космічний Прогноз на Подорож <br>♎ 🌬️ 🌊 ♓</h1>
 
         <p><strong>Об'єкт аналізу:</strong> Спільна подорож представників знаків Терези (чоловік) та Риби (жінка). <br>
@@ -187,6 +214,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const starLayers = document.querySelectorAll('.stars');
+            const permissionButton = document.getElementById('permission-button');
             
             function createStars() {
                 starLayers.forEach((layer, index) => {
@@ -209,7 +237,6 @@
                 const { clientX, clientY } = e;
                 const centerX = window.innerWidth / 2;
                 const centerY = window.innerHeight / 2;
-
                 const moveX = (clientX - centerX) / centerX;
                 const moveY = (clientY - centerY) / centerY;
 
@@ -222,20 +249,36 @@
             }
 
             function handleOrientation(e) {
-                // gamma: left-to-right tilt (-90 to 90)
-                // beta: front-to-back tilt (-180 to 180)
                 const { beta, gamma } = e;
-
-                // Normalize values for a smoother effect. Capping at 45 degrees.
                 const moveX = Math.max(-45, Math.min(45, gamma)) / 45;
                 const moveY = Math.max(-45, Math.min(45, beta)) / 45;
 
                 starLayers.forEach(layer => {
-                    const speed = layer.dataset.speed / 2; // Slower speed for mobile feels better
+                    const speed = layer.dataset.speed / 2;
                     const x = -(moveX * speed);
                     const y = -(moveY * speed);
                     layer.style.transform = `translate(${x}px, ${y}px)`;
                 });
+            }
+
+            function requestOrientationPermission() {
+                // For iOS 13+
+                if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+                    DeviceOrientationEvent.requestPermission()
+                        .then(permissionState => {
+                            if (permissionState === 'granted') {
+                                window.addEventListener('deviceorientation', handleOrientation);
+                            }
+                        })
+                        .catch(console.error);
+                } else {
+                    // For other devices
+                     if (window.DeviceOrientationEvent) {
+                        window.addEventListener('deviceorientation', handleOrientation);
+                     }
+                }
+                // Hide button after click
+                permissionButton.style.display = 'none';
             }
 
             createStars();
@@ -243,13 +286,9 @@
             // Parallax for Desktops (mouse)
             if (!window.matchMedia("(pointer: coarse)").matches) {
                 window.addEventListener('mousemove', handleMouseMove);
-            }
-
-            // Parallax for Mobile (gyroscope)
-            // Note: On iOS 13+, this requires user permission which can't be requested without a user action (like a button click).
-            // We add the listener directly for broader compatibility (Android, older iOS).
-            if (window.DeviceOrientationEvent) {
-                window.addEventListener('deviceorientation', handleOrientation);
+                permissionButton.style.display = 'none'; // Hide button on desktop
+            } else {
+                permissionButton.addEventListener('click', requestOrientationPermission);
             }
         });
     </script>
