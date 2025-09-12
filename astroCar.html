@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ваш Ідеальний Автомобіль</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --primary-text-color: #e0e0e0;
+            --secondary-text-color: #a0a0a0;
+            --accent-color: #cda45e;
+            --card-bg-color: #1a1a1a;
+            --border-color: #333333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--primary-text-color);
+            font-family: 'Montserrat', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        main {
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        /* --- Intro Screen --- */
+        #intro {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+            line-height: 1.2;
+        }
+
+        .intro-text {
+            font-size: 1rem;
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--secondary-text-color);
+            margin: 0 auto 30px auto;
+            max-width: 90%;
+        }
+
+        .call-to-action {
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .choice-btn {
+            background-color: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 15px 20px;
+            font-size: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .choice-btn:hover {
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+        }
+
+        /* --- Joke Modal --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .modal-content {
+            background: var(--card-bg-color);
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            max-width: 400px;
+            width: 100%;
+            transform: scale(0.95);
+            animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-content p {
+            font-size: 1.5rem;
+            line-height: 1.4;
+            margin-bottom: 30px;
+        }
+
+        #pay-button {
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        #pay-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- Compliment Screen --- */
+        #compliment {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--bg-color);
+            z-index: 2000;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* --- Results Screen --- */
+        .result-card {
+            background-color: var(--card-bg-color);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            animation: fadeIn 1s ease;
+            width: 100%;
+        }
+
+        .result-card img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            aspect-ratio: 16 / 10;
+        }
+
+        .result-card h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-text-color);
+            margin-bottom: 10px;
+        }
+        
+        .result-card h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .result-card p {
+            text-align: left;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--secondary-text-color);
+            margin-bottom: 15px;
+        }
+
+        #reset-button {
+            margin-top: 30px;
+            background: transparent;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        #reset-button:hover {
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+        }
+
+        /* --- Utility Classes & Animations --- */
+        .hidden {
+            display: none !important;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        /* Media query for larger screens */
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+            .result-card {
+                padding: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main>
+        <!-- Screen 1: Intro Quiz -->
+        <section id="intro">
+            <h1>Автомобіль, що відображає Вас</h1>
+            <p class="intro-text">Ваша сутність — це унікальне поєднання глибокої інтуїції та прагматичної сили. Ви цінуєте якість, що не кричить про себе, комфорт, що дарує спокій, та технології, що відкривають майбутнє.</p>
+            <p class="call-to-action">Оберіть, що резонує з вами найбільше:</p>
+            <div class="choices">
+                <button class="choice-btn" data-car="volvo">Впевнена Гармонія</button>
+                <button class="choice-btn" data-car="audi">Технологічний Інтелект</button>
+                <button class="choice-btn" data-car="lexus">Абсолютний Комфорт</button>
+            </div>
+        </section>
+
+        <!-- Screen 2: Results (initially hidden) -->
+        <section id="results" class="hidden">
+            <!-- Volvo Result -->
+            <div id="volvo-result" class="result-card hidden">
+                <img src="https://images.unsplash.com/photo-1617551829289-34b971a7c419?q=80&w=1932&auto=format&fit=crop" 
+                     onerror="this.onerror=null;this.src='https://placehold.co/600x400/333/cda45e?text=Volvo+XC60';"
+                     alt="Інтер'єр Volvo XC60">
+                <h2>Volvo XC60</h2>
+                <h3>Впевнена Гармонія</h3>
+                <p>Це ідеальне влучання. Volvo — квінтесенція безпеки, стриманого скандинавського дизайну та статусу. Це автомобіль, який не кричить про свій рівень, а тихо і впевнено його підтверджує.</p>
+                <p>Інтер'єр, відомий своїм комфортом та якісними матеріалами, стане вашим затишним "коконом". А передові технології та системи допомоги створять відчуття повного контролю та гармонії з дорогою. Це найцілісніший вибір для вашої натури.</p>
+            </div>
+            <!-- Audi Result -->
+            <div id="audi-result" class="result-card hidden">
+                <img src="https://images.unsplash.com/photo-1616422285623-13ff0162193c?q=80&w=1932&auto=format&fit=crop"
+                     onerror="this.onerror=null;this.src='https://placehold.co/600x400/333/cda45e?text=Audi+Q5';"
+                     alt="Передня частина Audi Q5">
+                <h2>Audi Q5</h2>
+                <h3>Технологічний Інтелект</h3>
+                <p>Audi поєднує престиж та стриманість з передовими технологіями. Це вибір, який апелює до вашої любові до інновацій та прогресу. Філософія "Перевага через технології" — це те, що резонує з вашим оригінальним мисленням.</p>
+                <p>Віртуальний кокпіт, матричні фари та ідеально налаштовані системи допомоги водію подарують відчуття повного єднання з автомобілем. Система повного приводу Quattro додасть впевненості та відчуття контролю на будь-якій дорозі.</p>
+            </div>
+            <!-- Lexus Result -->
+            <div id="lexus-result" class="result-card hidden">
+                <img src="https://images.unsplash.com/photo-1621007826433-28843c94d072?q=80&w=1974&auto=format&fit=crop"
+                     onerror="this.onerror=null;this.src='https://placehold.co/600x400/333/cda45e?text=Lexus+RX';"
+                     alt="Салон автомобіля Lexus">
+                <h2>Lexus RX</h2>
+                <h3>Абсолютний Комфорт</h3>
+                <p>Якщо ваш головний пріоритет — повне відсторонення від зовнішнього світу та метушні, Lexus є еталоном. Цей бренд — синонім неймовірного комфорту, феноменальної плавності ходу та ідеальної шумоізоляції.</p>
+                <p>Це ваш особистий "притулок на колесах", який задовольнить глибоку потребу в емоційному спокої та стабільності. Безкомпромісна надійність та увага до деталей створюють відчуття розкоші, яка не потребує доказів.</p>
+            </div>
+            <button id="reset-button">Спробувати ще раз</button>
+        </section>
+    </main>
+
+    <!-- Joke Modal (initially hidden) -->
+    <div id="joke-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <p>Дізнайся свій ідеальний автомобіль всього за 2$ 😉</p>
+            <button id="pay-button">Дізнатися!</button>
+        </div>
+    </div>
+
+    <!-- Compliment (initially hidden) -->
+    <div id="compliment" class="hidden">
+        Ти неймовірна
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Sections
+            const introSection = document.getElementById('intro');
+            const resultsSection = document.getElementById('results');
+            
+            // Modals and Overlays
+            const jokeModal = document.getElementById('joke-modal');
+            const complimentDiv = document.getElementById('compliment');
+
+            // Buttons
+            const choiceButtons = document.querySelectorAll('.choice-btn');
+            const payButton = document.getElementById('pay-button');
+            const resetButton = document.getElementById('reset-button');
+            
+            // Result Cards
+            const resultCards = document.querySelectorAll('.result-card');
+
+            let selectedCar = null;
+
+            // Step 1: User makes a choice
+            choiceButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    selectedCar = button.dataset.car;
+                    introSection.style.animation = 'fadeOut 0.5s ease';
+                    setTimeout(() => {
+                        introSection.classList.add('hidden');
+                        jokeModal.classList.remove('hidden');
+                    }, 450);
+                });
+            });
+
+            // Step 2: User "pays"
+            payButton.addEventListener('click', () => {
+                jokeModal.style.animation = 'fadeOut 0.5s ease';
+                setTimeout(() => {
+                    jokeModal.classList.add('hidden');
+                    complimentDiv.classList.remove('hidden');
+                    // Step 3: Show compliment and then the result
+                    showComplimentAndResult();
+                }, 450);
+            });
+
+            function showComplimentAndResult() {
+                setTimeout(() => {
+                    complimentDiv.style.animation = 'fadeOut 0.5s ease';
+                    setTimeout(() => {
+                        complimentDiv.classList.add('hidden');
+                        // Show the final results
+                        resultsSection.classList.remove('hidden');
+                        document.getElementById(`${selectedCar}-result`).classList.remove('hidden');
+                        // Reset animations
+                        complimentDiv.style.animation = 'fadeIn 0.5s ease';
+                        jokeModal.style.animation = 'fadeIn 0.5s ease';
+                    }, 450);
+                }, 1500); // Compliment is visible for 1.5 seconds
+            }
+
+            // Step 4: User wants to reset
+            resetButton.addEventListener('click', () => {
+                resultsSection.style.animation = 'fadeOut 0.5s ease';
+                 setTimeout(() => {
+                    resultsSection.classList.add('hidden');
+                    resultCards.forEach(card => card.classList.add('hidden'));
+                    
+                    introSection.classList.remove('hidden');
+                    introSection.style.animation = 'fadeIn 0.5s ease';
+                    selectedCar = null;
+                 }, 450);
+            });
+        });
+    </script>
+</body>
+</html>
