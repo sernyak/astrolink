@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Астрологічний Аналіз Сумісності</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Warm Neutrals (Soft Ivory, Taupe, Deep Burgundy, Forest Green) -->
+    <!-- Application Structure Plan: The SPA uses a tabbed dashboard structure. The "Overview" tab presents the core verdict and a quantitative compatibility score. Subsequent tabs ("Магнетизм", "Комфорт", "Виклики") allow the user to drill down into specific qualitative insights (Venus, Moon, and Sun aspects). This structure was chosen to make the complex astrological data easily digestible, allowing the user to explore the 'why' behind the high compatibility score at their own pace without being overwhelmed by a wall of text. -->
+    <!-- Visualization & Content Choices: 
+         1. Overall Compatibility -> Goal: Inform -> Viz: Donut Chart (Chart.js) -> Interaction: Hover tooltips -> Justification: Provides an immediate, clear visual representation of the 85-90% score. 
+         2. Relationship Dynamics -> Goal: Compare -> Viz: Bar Chart (Chart.js) -> Interaction: Hover -> Justification: Compares different facets of the relationship (Passion vs Stability vs Friction). 
+         3. Astrological Aspects -> Goal: Organize/Inform -> Viz: Interactive Tabs & Cards (HTML/Tailwind/JS) -> Interaction: Click to switch views -> Justification: Breaks down the textual report into logical, thematic sections. Confirming NO SVG/Mermaid. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            background-color: #fdfbf7;
+            color: #2d3748;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .tab-btn.active {
+            border-bottom: 2px solid #7a3b3f;
+            color: #7a3b3f;
+            font-weight: 600;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto">
+        <header class="text-center mb-10 fade-in">
+            <div class="text-5xl mb-4">✨</div>
+            <h1 class="text-3xl md:text-5xl font-bold mb-4 text-[#4a5d4e]">Астрологічний Аналіз Сумісності</h1>
+            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-6">Інтерактивний звіт, що розкриває глибинну динаміку, приховані мотиви та потенціал ваших стосунків.</p>
+            
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8 text-sm md:text-base text-gray-700">
+                <div class="bg-white/60 backdrop-blur-sm px-6 py-2 rounded-full shadow-sm border border-gray-200">
+                    <span class="font-bold text-[#7a3b3f]">♂ Він:</span> 10 жовтня 1986, 02:50 (м. Ужгород)
+                </div>
+                <div class="bg-white/60 backdrop-blur-sm px-6 py-2 rounded-full shadow-sm border border-gray-200">
+                    <span class="font-bold text-[#4a5d4e]">♀ Вона:</span> 23 червня 1987 (м. Кролевець)
+                </div>
+            </div>
+        </header>
+
+        <div class="flex flex-wrap justify-center gap-4 mb-8 border-b border-gray-300">
+            <button class="tab-btn active pb-2 px-4 text-lg transition-colors duration-200" data-target="overview">Загальний Висновок</button>
+            <button class="tab-btn pb-2 px-4 text-lg transition-colors duration-200" data-target="passion">🔥 Магнетизм</button>
+            <button class="tab-btn pb-2 px-4 text-lg transition-colors duration-200" data-target="comfort">⚓ Комфорт</button>
+            <button class="tab-btn pb-2 px-4 text-lg transition-colors duration-200" data-target="challenges">⚡ Виклики</button>
+        </div>
+
+        <main id="content-area" class="glass-panel rounded-2xl shadow-xl p-6 md:p-10 fade-in">
+            
+            <section id="overview" class="tab-content block">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold mb-2 text-[#7a3b3f]">Синергія Зірок: Огляд</h2>
+                    <p class="text-gray-700 leading-relaxed">Цей розділ представляє головний вердикт щодо вашого потенціалу як пари. Наведена нижче діаграма демонструє надзвичайно високий відсоток загальної сумісності, розрахований на основі взаємодії ваших натальних карт.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <p class="text-lg leading-relaxed mb-4">
+                            Як астролог, який проаналізував карти обох партнерів, можу впевнено сказати, що між вами закладена надзвичайно потужна, майже фатальна астрологічна хімія.
+                        </p>
+                        <p class="text-lg leading-relaxed font-semibold text-[#4a5d4e]">
+                            Орієнтовний відсоток вашої сумісності: 85-90%
+                        </p>
+                        <p class="text-md text-gray-600 mt-2 italic">
+                            Це рідкісне та надзвичайно вдале поєднання шаленої фізичної пристрасті та глибокого душевного комфорту, яке не дасть вам засумувати жодної хвилини.
+                        </p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="chart-container">
+                            <canvas id="compatibilityChart"></canvas>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-4 text-center">Графік 1: Загальний рівень сумісності (Співвідношення гармонії до викликів)</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="passion" class="tab-content hidden">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold mb-2 text-[#7a3b3f]">Опозиція Венер: Фатальне Тяжіння</h2>
+                    <p class="text-gray-700 leading-relaxed">Тут ви можете дослідити природу вашого фізичного магнетизму. Взаємодія планет кохання у ваших картах створює найвищий показник тяжіння.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-xl p-6 shadow-md border-l-4 border-[#7a3b3f]">
+                        <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><span>♂️</span> Його Венера (Скорпіон)</h3>
+                        <p class="text-gray-700">Жадає крайнощів, інтенсивності, табу та глибокого психологічного злиття. Шукає глибину та магнетизм.</p>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-md border-l-4 border-[#4a5d4e]">
+                        <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><span>♀️</span> Її Венера (Телець)</h3>
+                        <p class="text-gray-700">Жадає тілесної насолоди, розкоші, тактильності, довгого і дуже чуттєвого сексу. Шукає земну стабільність.</p>
+                    </div>
+                </div>
+
+                <div class="mt-8 bg-[#f5e6e8] rounded-xl p-6">
+                    <p class="text-lg leading-relaxed text-[#5a2a2e]">
+                        Ваші планети кохання (Венери) знаходяться в точній опозиції. У нашій науці це найвищий показник магнетизму за принципом "протилежності притягуються". Це той випадок, коли іскри летять з перших хвилин, і виникає непереборний інтерес пізнавати одне одного на найглибшому рівні.
+                    </p>
+                </div>
+            </section>
+
+            <section id="comfort" class="tab-content hidden">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold mb-2 text-[#4a5d4e]">Земні Місяці: Безпечна Гавань</h2>
+                    <p class="text-gray-700 leading-relaxed">Цей розділ пояснює вашу емоційну сумісність. Натисніть на картки нижче, щоб побачити, як ваші підсвідомі потреби доповнюють одна одну.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="cursor-pointer bg-white p-6 rounded-xl shadow transition hover:shadow-lg border-b-4 border-[#4a5d4e]" onclick="toggleInfo('moon-him')">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-lg">Його Місяць (Козоріг) 🏔️</h3>
+                            <span class="text-gray-400 text-sm">Натисніть</span>
+                        </div>
+                        <p id="moon-him" class="hidden mt-4 text-gray-700 pt-4 border-t border-gray-100 fade-in">Відповідальний, контролює емоції, шукає надійності та порядку. Заспокоюється через досягнення та стабільність.</p>
+                    </div>
+                    <div class="cursor-pointer bg-white p-6 rounded-xl shadow transition hover:shadow-lg border-b-4 border-[#4a5d4e]" onclick="toggleInfo('moon-her')">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-lg">Її Місяць (Телець) 🌳</h3>
+                            <span class="text-gray-400 text-sm">Натисніть</span>
+                        </div>
+                        <p id="moon-her" class="hidden mt-4 text-gray-700 pt-4 border-t border-gray-100 fade-in">Емоційна опора, цінує комфорт, смачну їжу, спокій. Здатна розслабити та створити ідеальний тил.</p>
+                    </div>
+                </div>
+
+                <p class="text-lg leading-relaxed">
+                    Найцікавіше та найцінніше тут інше: попри всю цю вибухову пристрасть, ваші емоційні планети знаходяться в одній земній стихії. Це означає, що вам буде неймовірно комфортно, затишно і спокійно разом навіть у звичайному повсякденному житті. Ви інтуїтивно розумітимете потребу одне одного в стабільності та турботі.
+                </p>
+            </section>
+
+            <section id="challenges" class="tab-content hidden">
+                <div class="mb-6">
+                    <h2 class="text-2xl font-bold mb-2 text-gray-800">Конфлікт Стихій: Зони Росту</h2>
+                    <p class="text-gray-700 leading-relaxed">Дослідіть потенційні виклики вашого союзу. Графік показує баланс енергій, де високий рівень пристрасті супроводжується певним рівнем тертя.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                    <div>
+                        <div class="bg-gray-100 p-6 rounded-xl mb-6 border-l-4 border-gray-400">
+                            <h3 class="font-bold mb-2">Повітря vs Вода та Земля</h3>
+                            <p class="text-gray-700">Його повітряна природа (Сонце в Терезах) потребує легкості, соціуму та певної свободи маневру. Натомість її водно-земна натура (Сонце в Раку, планети в Тельці) прагне абсолютної глибини, ексклюзивності та безроздільного володіння партнером.</p>
+                        </div>
+                        <p class="text-lg leading-relaxed">
+                            Проте маю попередити: цей союз точно не буде прісним чи занадто "зручним". Та сама опозиція Венер, яка дає вам шалене тяжіння, може провокувати впертість та ревнощі. Це партнерство — справжній виклик. Воно вимагатиме від нього вміння дати їй відчуття тотальної безпеки, а від неї — мудрості не затискати його в жорсткі рамки.
+                        </p>
+                    </div>
+                    <div class="flex flex-col items-center w-full">
+                        <div class="chart-container">
+                            <canvas id="dynamicsChart"></canvas>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-4 text-center">Графік 2: Динаміка стосунків у різних сферах</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const contents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => {
+                        c.classList.add('hidden');
+                        c.classList.remove('fade-in');
+                    });
+
+                    tab.classList.add('active');
+                    const targetId = tab.getAttribute('data-target');
+                    const targetContent = document.getElementById(targetId);
+                    targetContent.classList.remove('hidden');
+                    targetContent.classList.add('fade-in');
+                });
+            });
+
+            const ctxDoughnut = document.getElementById('compatibilityChart').getContext('2d');
+            new Chart(ctxDoughnut, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Гармонія та Сумісність', 'Виклики та Робота'],
+                    datasets: [{
+                        data: [88, 12],
+                        backgroundColor: ['#4a5d4e', '#d1d5db'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': ' + context.parsed + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const ctxBar = document.getElementById('dynamicsChart').getContext('2d');
+            new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: ['Пристрасть', 'Побут', 'Ревнощі', 'Свобода'],
+                    datasets: [{
+                        label: 'Рівень Інтенсивності',
+                        data: [100, 90, 75, 50],
+                        backgroundColor: [
+                            '#7a3b3f',
+                            '#4a5d4e',
+                            '#b91c1c',
+                            '#6b7280'
+                        ],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: { display: false }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    let label = context[0].label;
+                                    const tooltips = {
+                                        'Пристрасть': 'Опозиція Венер дає максимум магнетизму.',
+                                        'Побут': 'Земні Місяці забезпечують високий комфорт.',
+                                        'Ревнощі': 'Конфлікт Водолія/Терезів та Рака/Тельця.',
+                                        'Свобода': 'Потреба компромісу між незалежністю та безпекою.'
+                                    };
+                                    return tooltips[label] || label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
+        window.toggleInfo = function(id) {
+            const el = document.getElementById(id);
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+            }
+        };
+    </script>
+</body>
+</html>
