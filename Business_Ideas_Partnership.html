@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бізнес-Синергія: Стратегічні Проекти</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Montserrat', sans-serif; background-color: #0f172a; color: #f8fafc; }
+        h1, h2, h3, .serif-font { font-family: 'Cormorant Garamond', serif; }
+        
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .gradient-text-gold {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Animations */
+        .fade-in-up { animation: fadeInUp 0.6s ease-out forwards; opacity: 0; }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .role-badge {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="min-h-screen selection:bg-sky-500/30 selection:text-sky-200 antialiased overflow-x-hidden relative">
+
+    <!-- Background Effects -->
+    <div class="fixed top-[-10%] left-[-10%] w-[300px] md:w-[40%] h-[300px] md:h-[40%] bg-sky-600/20 rounded-full blur-[80px] md:blur-[120px] pointer-events-none"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[300px] md:w-[40%] h-[300px] md:h-[40%] bg-indigo-600/20 rounded-full blur-[80px] md:blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-6xl mx-auto px-4 py-12 md:py-20 relative z-10">
+        
+        <!-- Header -->
+        <header class="text-center mb-16 fade-in-up">
+            <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-slate-800/50 border border-slate-700/50 text-sm font-medium text-slate-300 mb-6">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>Astrological & Professional Synergy</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 serif-font leading-tight">
+                Стратегічні Бізнес-Ідеї <br class="hidden md:block"/>
+                <span class="gradient-text">Тільки Для Двох</span>
+            </h1>
+            <p class="text-slate-400 text-base md:text-lg max-w-2xl mx-auto mt-6">
+                Поєднання твого таланту архітектора-маркетолога та її експертизи головного бухгалтера створює унікальний продукт, який неможливо скопіювати поодинці.
+            </p>
+        </header>
+
+        <!-- Cards Container -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+
+            <!-- IDEA 1 -->
+            <article class="glass-card rounded-3xl p-6 md:p-8 flex flex-col fade-in-up delay-100 relative overflow-hidden group">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <svg class="w-24 h-24 text-sky-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.31-8.86c-1.77-.45-2.34-.94-2.34-1.67 0-.84.79-1.43 2.1-1.43 1.38 0 1.9.66 1.94 1.64h1.71c-.05-1.34-.87-2.57-2.49-2.97V5H10.9v1.69c-1.51.32-2.72 1.3-2.72 2.81 0 1.79 1.49 2.69 3.66 3.21 1.95.46 2.34 1.15 2.34 1.87 0 .53-.39 1.64-2.25 1.64-1.74 0-2.1-.96-2.17-1.92H8.01c.09 1.96 1.28 2.87 2.89 3.22V19h2.34v-1.66c1.65-.29 2.92-1.38 2.92-2.97 0-2.34-1.95-3.06-3.85-3.51z"/></svg>
+                </div>
+                
+                <div class="mb-6 relative z-10">
+                    <span class="text-xs font-bold tracking-widest uppercase text-sky-400 mb-2 block">B2B Сервіс • Premium</span>
+                    <h2 class="text-2xl md:text-3xl font-bold serif-font mb-3">Fractional CFO & Tax Automation</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Віддалений фінансовий директор для онлайн-бізнесів, IT-компаній та стартапів. Замість найму дорогого CFO в штат, компанія купує ваш преміальний аутсорс для наведення ладу в податках та прибутках.
+                    </p>
+                </div>
+
+                <div class="space-y-4 flex-grow relative z-10">
+                    <div class="role-badge p-4 rounded-2xl">
+                        <h3 class="text-xs text-slate-500 uppercase tracking-widest font-bold mb-2">Твоя Роль 👑</h3>
+                        <p class="text-sm text-slate-300">Продюсування, UI/UX преміального лендінгу, створення $100M оферу, побудова воронки залучення лідів та продажі.</p>
+                    </div>
+                    <div class="role-badge p-4 rounded-2xl">
+                        <h3 class="text-xs text-slate-500 uppercase tracking-widest font-bold mb-2">Її Роль 📊</h3>
+                        <p class="text-sm text-slate-300">Надання експертизи: оптимізація податків, фінансове моделювання, кризовий менеджмент (енергія її 8-го Дому).</p>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-6 border-t border-slate-700/50 relative z-10">
+                    <p class="text-xs text-emerald-400 font-medium">💡 Чому вистрілить: Високий LTV. Бізнеси готові платити дорого за збереження грошей і безпеку.</p>
+                </div>
+            </article>
+
+            <!-- IDEA 2 -->
+            <article class="glass-card rounded-3xl p-6 md:p-8 flex flex-col fade-in-up delay-200 relative overflow-hidden group">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <svg class="w-24 h-24 text-indigo-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
+                </div>
+
+                <div class="mb-6 relative z-10">
+                    <span class="text-xs font-bold tracking-widest uppercase text-indigo-400 mb-2 block">EdTech • B2C / B2B</span>
+                    <h2 class="text-2xl md:text-3xl font-bold serif-font mb-3">Академія Фінансової Грамотності</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Створення освітніх продуктів для підприємців (як управляти грошима компанії) або для самих бухгалтерів (як вийти на новий рівень за допомогою AI та автоматизації).
+                    </p>
+                </div>
+
+                <div class="space-y-4 flex-grow relative z-10">
+                    <div class="role-badge p-4 rounded-2xl">
+                        <h3 class="text-xs text-slate-500 uppercase tracking-widest font-bold mb-2">Твоя Роль 👑</h3>
+                        <p class="text-sm text-slate-300">Архітектура платформи, трафік, прогріви, інтеграція AI-асистентів у процес навчання, створення візуального бренду.</p>
+                    </div>
+                    <div class="role-badge p-4 rounded-2xl">
+                        <h3 class="text-xs text-slate-500 uppercase tracking-widest font-bold mb-2">Її Роль 📊</h3>
+                        <p class="text-sm text-slate-300">Методолог та головний спікер. Вона формує ядро контенту: таблиці, чек-листи, інструкції, лекції з реального досвіду.</p>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-6 border-t border-slate-700/50 relative z-10">
+                    <p class="text-xs text-emerald-400 font-medium">💡 Чому вистрілить: Легко масштабується через записані курси. Експертиза підкріплена її реальним досвідом Головбуха.</p>
+                </div>
+            </article>
+
+            <!-- IDEA 3 -->
+            <article class="glass-card rounded-3xl p-6 md:p-8 flex flex-col fade-in-up delay-300 relative overflow-hidden group">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <svg class="w-24 h-24 text-rose-400" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-8 14H7v-2h4v2zm0-4H7v-2h4v2zm0-4H7V7h4v2zm6 8h-4v-2h4v2zm0-4h-4v-2h4v2zm0-4h-4V7h4v2z"/></svg>
+                </div>
+
+                <div class="mb-6 relative z-10">
+                    <span class="text-xs font-bold tracking-widest uppercase text-rose-400 mb-2 block">SaaS • Tech • B2B</span>
+                    <h2 class="text-2xl md:text-3xl font-bold serif-font mb-3">FinTech Micro-SaaS / AI Bot</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Створення спеціалізованого софту або Telegram AI-бота для бухгалтерів, який бере на себе рутину: розпізнавання інвойсів, категоризація витрат, підготовка базових звітів.
+                    </p>
+                </div>
+
+                <div class="space-y-4 flex-grow relative z-10">
+                    <div class="role-badge p-4 rounded-2xl">
+                        <h3 class="text-xs text-slate-500 uppercase tracking-widest font-bold mb-2">Твоя Роль 👑</h3>
+                        <p class="text-sm text-slate-300">Prompt Engineering, розробка (власноруч або з командою), UI/UX продукту, стратегія виходу на ринок.</p>
+                    </div>
+                    <div class="role-badge p-4 rounded-2xl">
+                        <h3 class="text-xs text-slate-500 uppercase tracking-widest font-bold mb-2">Її Роль 📊</h3>
+                        <p class="text-sm text-slate-300">Subject Matter Expert (SME). Вона знає досконало болі бухгалтерів, надає логіку проводок і тестує AI-відповіді на точність.</p>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-6 border-t border-slate-700/50 relative z-10">
+                    <p class="text-xs text-emerald-400 font-medium">💡 Чому вистрілить: Продукти на перетині AI та фінансів зараз на піку інвестиційної привабливості. Низька конкуренція в нішевих рішеннях.</p>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- Next Step Action -->
+        <div class="mt-16 text-center fade-in-up delay-300">
+            <p class="text-slate-400 mb-4">Готовий обрати напрямок і розробити структуру оферу?</p>
+            <div class="inline-block p-1 rounded-2xl md:rounded-full bg-gradient-to-r from-sky-500 to-indigo-500 shadow-lg shadow-indigo-500/25 cursor-default hover:shadow-indigo-500/40 transition-shadow">
+                <div class="bg-slate-900 px-6 py-4 md:px-8 md:py-3 rounded-[14px] md:rounded-full flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4">
+                    <span class="text-sky-400 font-mono text-sm md:text-base font-semibold">/landing-offer-architect</span>
+                    <span class="text-slate-300 text-xs md:text-sm font-medium text-center md:text-left">Використай цю команду або напиши мені свій вибір</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
