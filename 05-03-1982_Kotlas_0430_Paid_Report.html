@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Психологічний Портрет | Destiny Code</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #0F172A;
+            --bg-card: rgba(30,41,59,0.5);
+            --border: rgba(51,65,85,0.5);
+            --t1: #F8FAFC;
+            --t2: #CBD5E1;
+            --t3: #64748B;
+            --blue: #3B82F6;
+            --purple: #8B5CF6;
+            --pink: #EC4899;
+            --emerald: #10B981;
+            --amber: #F59E0B;
+            --red: #EF4444;
+            --cyan: #06B6D4;
+            --grad: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+        }
+        body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--t1); -webkit-tap-highlight-color:transparent; line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+        .serif { font-family:'Cormorant Garamond',serif; }
+
+        /* HEADER */
+        .header { background:var(--bg); border-bottom:1px solid var(--border); padding:2rem 1rem; text-align:center; position:relative; }
+        .header::before { content:''; position:absolute; top:0; left:0; width:100%; height:3px; background:var(--grad); }
+        .header__title { font-size:clamp(1.8rem,5vw,3.2rem); background:linear-gradient(135deg,#93C5FD,#C4B5FD); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:0.3rem; }
+        .header__sub { color:var(--t3); text-transform:uppercase; letter-spacing:0.25em; font-size:0.65rem; margin-bottom:1rem; }
+        .header__badge { display:inline-flex; align-items:center; gap:0.5rem; background:rgba(30,41,59,0.8); padding:0.4rem 1.2rem; border-radius:100px; border:1px solid var(--border); font-size:0.85rem; color:#93C5FD; }
+
+        /* NAV */
+        .nav-wrap { position:sticky; top:0; z-index:100; background:rgba(15,23,42,0.97); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); }
+        .nav-tabs { display:none; max-width:1200px; margin:0 auto; position:relative; }
+        .nav-tabs__list { display:flex; list-style:none; width:100%; }
+        .nav-tabs__item { flex:1; text-align:center; }
+        .nav-tabs__btn { display:block; width:100%; padding:0.85rem 0.25rem; background:none; border:none; color:var(--t3); font-family:'Inter',sans-serif; font-size:0.72rem; font-weight:500; cursor:pointer; transition:color 0.3s; white-space:nowrap; }
+        .nav-tabs__btn:hover { color:var(--t2); }
+        .nav-tabs__btn.active { color:var(--t1); font-weight:600; }
+        .nav-tabs__ind { position:absolute; bottom:0; left:0; height:3px; background:var(--grad); border-radius:3px 3px 0 0; transition:left 0.35s cubic-bezier(.4,0,.2,1), width 0.35s cubic-bezier(.4,0,.2,1); }
+        .nav-mob { display:block; position:relative; }
+        .nav-mob__scroll { display:flex; gap:0.5rem; padding:0.6rem 1rem; overflow-x:auto; overscroll-behavior-x:contain; scrollbar-width:none; scroll-snap-type:x proximity; }
+        .nav-mob__scroll::-webkit-scrollbar { display:none; }
+        .nav-mob__btn { flex-shrink:0; padding:0.5rem 0.9rem; border-radius:100px; border:1px solid var(--border); background:transparent; color:var(--t3); font-family:'Inter',sans-serif; font-size:0.78rem; font-weight:500; cursor:pointer; white-space:nowrap; transition:all 0.3s; scroll-snap-align:center; }
+        .nav-mob__btn.active { background:var(--grad); color:#fff; border-color:transparent; box-shadow:0 4px 14px rgba(139,92,246,0.35); }
+        .nav-mob::before, .nav-mob::after { content:''; position:absolute; top:0; bottom:0; width:2rem; z-index:2; pointer-events:none; }
+        .nav-mob::before { left:0; background:linear-gradient(to right,var(--bg),transparent); }
+        .nav-mob::after { right:0; background:linear-gradient(to left,var(--bg),transparent); }
+        @media(min-width:1024px) { .nav-tabs{display:block;} .nav-mob{display:none;} }
+
+        /* CONTENT */
+        .main { max-width:900px; width:100%; margin:0 auto; padding:1.5rem 1rem 4rem; flex:1; }
+        .sec { display:none; animation:secIn 0.5s ease-out; }
+        .sec.active { display:block; }
+        @keyframes secIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+        .card { background:var(--bg-card); border:1px solid var(--border); border-radius:1rem; padding:1.5rem; margin-bottom:1.5rem; }
+        .sec-title { font-size:1.5rem; font-weight:700; margin-bottom:1rem; display:flex; align-items:center; gap:0.5rem; }
+        .atxt { color:var(--t2); }
+        .atxt p { margin-bottom:1rem; line-height:1.75; }
+        .atxt b { color:var(--t1); font-weight:600; }
+
+        .advice { background:rgba(59,130,246,0.08); border-left:4px solid var(--blue); border-radius:0 0.75rem 0.75rem 0; padding:1rem 1.25rem; margin-top:1.25rem; display:flex; gap:0.75rem; align-items:flex-start; }
+        .advice__icon { font-size:1.3rem; flex-shrink:0; }
+        .advice__text { color:#93C5FD; font-size:0.9rem; line-height:1.6; }
+        .advice__text b { color:#DBEAFE; }
+
+        .fg { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1.25rem; }
+        @media(max-width:640px) { .fg{grid-template-columns:1fr;} }
+        .fl { padding:1rem; border-radius:0.75rem; }
+        .fl--r { background:rgba(239,68,68,0.05); border:1px solid rgba(239,68,68,0.2); }
+        .fl--g { background:rgba(16,185,129,0.05); border:1px solid rgba(16,185,129,0.2); }
+        .fl__t { font-weight:700; font-size:0.9rem; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.4rem; }
+        .fl--r .fl__t { color:var(--red); }
+        .fl--g .fl__t { color:var(--emerald); }
+        .fl__l { list-style:disc; padding-left:1.2rem; font-size:0.82rem; line-height:1.6; }
+        .fl--r .fl__l { color:#FCA5A5; }
+        .fl--g .fl__l { color:#A7F3D0; }
+
+        .cq { background:linear-gradient(135deg,rgba(139,92,246,0.1),rgba(217,70,239,0.08)); border:1px solid rgba(139,92,246,0.25); border-radius:0.75rem; padding:1.25rem; margin-top:1.25rem; text-align:center; }
+        .cq__lab { text-transform:uppercase; letter-spacing:0.15em; font-size:0.7rem; color:#C4B5FD; margin-bottom:0.4rem; }
+        .cq__q { font-size:1.05rem; font-weight:600; line-height:1.5; }
+
+        /* CHART */
+        .chw { display:flex; justify-content:center; padding:1rem 0; position:relative; }
+        .chw canvas { max-width:100%; height:auto!important; }
+        .tooltip { position:absolute; background:rgba(15,23,42,0.95); border:1px solid var(--border); border-radius:0.5rem; padding:0.5rem 0.75rem; font-size:0.75rem; pointer-events:none; opacity:0; transition:opacity 0.2s; z-index:10; white-space:nowrap; backdrop-filter:blur(8px); }
+        .tooltip.vis { opacity:1; }
+
+        /* Sub-tabs */
+        .stabs { display:flex; gap:0.25rem; border-bottom:1px solid var(--border); margin-bottom:1rem; }
+        .stab { padding:0.5rem 0.75rem; background:none; border:none; color:var(--t3); font-family:'Inter',sans-serif; font-size:0.78rem; cursor:pointer; border-bottom:2px solid transparent; transition:all 0.2s; }
+        .stab.active { color:#93C5FD; border-bottom-color:var(--blue); font-weight:600; }
+        .sc { display:none; }
+        .sc.active { display:block; }
+
+        /* Data table */
+        .dt { width:100%; border-collapse:collapse; font-size:0.78rem; }
+        .dt th { background:rgba(30,41,59,0.8); color:var(--t2); font-weight:600; padding:0.6rem; text-align:left; border-bottom:1px solid var(--border); }
+        .dt td { padding:0.5rem 0.6rem; border-bottom:1px solid rgba(51,65,85,0.3); color:var(--t2); }
+        .dt tr:hover td { background:rgba(30,41,59,0.4); }
+        .mono { font-family:'SF Mono','Fira Code',monospace; font-size:0.72rem; color:var(--t3); }
+
+        /* Bars */
+        .bar-row { display:flex; align-items:center; gap:0.75rem; margin-bottom:0.75rem; }
+        .bar-lab { flex:0 0 160px; font-size:0.82rem; color:var(--t2); text-align:right; }
+        @media(max-width:640px) { .bar-lab{flex:0 0 100px;font-size:0.72rem;} }
+        .bar-trk { flex:1; height:24px; background:rgba(51,65,85,0.3); border-radius:12px; overflow:hidden; }
+        .bar-fill { height:100%; border-radius:12px; width:0; transition:width 2.5s cubic-bezier(.4,0,.2,1); position:relative; }
+        .bar-fill::after { content:attr(data-value); position:absolute; right:8px; top:50%; transform:translateY(-50%); font-size:0.7rem; font-weight:700; color:rgba(255,255,255,0.9); }
+
+        .karma-line { position:relative; height:6px; background:rgba(51,65,85,0.4); border-radius:3px; margin:3.5rem 2rem 3.5rem; }
+        .karma-prog { position:absolute; top:0; left:0; height:100%; border-radius:3px; background:var(--grad); width:0; transition:width 2.5s cubic-bezier(.4,0,.2,1); }
+        .karma-dot { position:absolute; top:50%; transform:translate(-50%,-50%); width:18px; height:18px; border-radius:50%; background:var(--purple); border:3px solid var(--bg); box-shadow:0 0 12px rgba(139,92,246,0.5); z-index:2; left:0; transition:left 2.5s cubic-bezier(.4,0,.2,1); }
+        .karma-lbl { position:absolute; font-size:0.75rem; font-weight:600; white-space:nowrap; }
+        .karma-lbl--s { left:0; top:-2.2rem; color:var(--t3); }
+        .karma-lbl--e { right:0; top:-2.2rem; color:var(--emerald); }
+        .karma-lbl--c { top:1.8rem; color:var(--purple); font-size:0.7rem; left:0; transition:left 2.5s cubic-bezier(.4,0,.2,1); }
+
+        /* Timeline */
+        .tl-track { position:relative; padding-left:2rem; border-left:3px solid rgba(51,65,85,0.4); margin-left:1rem; }
+        .tl-item { position:relative; margin-bottom:2rem; opacity:0; transform:translateX(-10px); transition:all 0.5s ease-out; }
+        .tl-item.vis { opacity:1; transform:translateX(0); }
+        .tl-item::before { content:''; position:absolute; left:-2.55rem; top:0.3rem; width:14px; height:14px; border-radius:50%; border:3px solid var(--blue); background:var(--bg); }
+        .tl-item:nth-child(2)::before { border-color:var(--purple); }
+        .tl-item:nth-child(3)::before { border-color:var(--emerald); }
+        .tl-per { font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--blue); margin-bottom:0.25rem; font-weight:600; }
+        .tl-item:nth-child(2) .tl-per { color:var(--purple); }
+        .tl-item:nth-child(3) .tl-per { color:var(--emerald); }
+        .tl-tit { font-weight:700; font-size:1rem; margin-bottom:0.3rem; }
+        .tl-desc { font-size:0.82rem; color:var(--t3); line-height:1.5; }
+
+        /* Info grid */
+        .ig { display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; }
+        @media(max-width:640px) { .ig{grid-template-columns:1fr;} }
+        .ic { padding:1rem; border-radius:0.75rem; border:1px solid var(--border); background:rgba(30,41,59,0.3); }
+        .ic h4 { font-size:0.82rem; font-weight:600; margin-bottom:0.5rem; }
+        .ic p, .ic ul { font-size:0.78rem; color:var(--t3); line-height:1.5; }
+        .ic ul { list-style:disc; padding-left:1rem; }
+
+        .footer { background:rgba(2,6,23,0.8); border-top:1px solid var(--border); padding:1.5rem; text-align:center; }
+        .footer__t { text-transform:uppercase; letter-spacing:0.25em; font-size:0.6rem; color:var(--t3); }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1 class="serif header__title">Твоя Космічна ДНК</h1>
+        <p class="header__sub">Premium Report</p>
+        <div class="header__badge serif">✨ <strong>Ірина</strong> &nbsp;|&nbsp; 5 березня 1982 &nbsp;|&nbsp; Котлас ✨</div>
+    </header>
+
+    <nav class="nav-wrap">
+        <div class="nav-tabs">
+            <ul class="nav-tabs__list" id="dTabs">
+                <li class="nav-tabs__item"><button class="nav-tabs__btn active" data-t="raw-data">🪐 Астро-Дані</button></li>
+                <li class="nav-tabs__item"><button class="nav-tabs__btn" data-t="summary">🌟 Резюме</button></li>
+                <li class="nav-tabs__item"><button class="nav-tabs__btn" data-t="core">✨ Ядро</button></li>
+                <li class="nav-tabs__item"><button class="nav-tabs__btn" data-t="love">❤️ Кохання</button></li>
+                <li class="nav-tabs__item"><button class="nav-tabs__btn" data-t="roots">🏡 Рід</button></li>
+                <li class="nav-tabs__item"><button class="nav-tabs__btn" data-t="career">👑 Кар'єра</button></li>
+                <li class="nav-tabs__item"><button class="nav-tabs__btn" data-t="wealth">💰 Фінанси</button></li>
+                <li class="nav-tabs__item"><button class="nav-tabs__btn" data-t="karma">🔮 Карма</button></li>
+                <li class="nav-tabs__item"><button class="nav-tabs__btn" data-t="shadow">🌑 Тінь</button></li>
+                <li class="nav-tabs__item"><button class="nav-tabs__btn" data-t="energy">⚖️ Баланс</button></li>
+                <li class="nav-tabs__item"><button class="nav-tabs__btn" data-t="future">⚡️ Майбутнє</button></li>
+            </ul>
+            <div class="nav-tabs__ind" id="tabInd"></div>
+        </div>
+        <div class="nav-mob">
+            <div class="nav-mob__scroll" id="mTabs">
+                <button class="nav-mob__btn active" data-t="raw-data">🪐 Астро-Дані</button>
+                <button class="nav-mob__btn" data-t="summary">🌟 Резюме</button>
+                <button class="nav-mob__btn" data-t="core">✨ Ядро</button>
+                <button class="nav-mob__btn" data-t="love">❤️ Кохання</button>
+                <button class="nav-mob__btn" data-t="roots">🏡 Рід</button>
+                <button class="nav-mob__btn" data-t="career">👑 Кар'єра</button>
+                <button class="nav-mob__btn" data-t="wealth">💰 Фінанси</button>
+                <button class="nav-mob__btn" data-t="karma">🔮 Карма</button>
+                <button class="nav-mob__btn" data-t="shadow">🌑 Тінь</button>
+                <button class="nav-mob__btn" data-t="energy">⚖️ Баланс</button>
+                <button class="nav-mob__btn" data-t="future">⚡️ Майбутнє</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main">
+
+        <!-- ═══ 0. ASTRO DATA ═══ -->
+        <section id="raw-data" class="sec active">
+            <div class="card">
+                <h2 class="sec-title"><span>🪐</span> Космічні Координати</h2>
+                <p style="color:var(--t3);font-size:0.82rem;margin-bottom:1rem;">Розрахунок для м. Котлас (61°15'N, 46°39'E). Фаза Місяця — Зростаючий (Waxing Gibbous, 118°).</p>
+
+                <div class="chw" style="margin-bottom:1.5rem;">
+                    <canvas id="zodiacWheel" width="420" height="420"></canvas>
+                    <div class="tooltip" id="zTip"></div>
+                </div>
+
+                <div class="stabs">
+                    <button class="stab active" data-sub="planets">🪐 Планети</button>
+                    <button class="stab" data-sub="houses">🏠 Доми</button>
+                    <button class="stab" data-sub="aspects">📐 Аспекти</button>
+                </div>
+
+                <div id="planets" class="sc active">
+                    <div style="overflow-x:auto;border-radius:0.75rem;border:1px solid var(--border);">
+                        <table class="dt">
+                            <thead><tr><th>Планета</th><th>Знак [Дім]</th><th style="text-align:right">Положення</th></tr></thead>
+                            <tbody>
+                                <tr><td style="color:#FDE68A;font-weight:600">☀️ Сонце</td><td>Риби [Дім 2]</td><td class="mono" style="text-align:right">14° 14' 54"</td></tr>
+                                <tr><td style="color:#93C5FD;font-weight:600">🌙 Місяць</td><td>Рак [Дім 7] 🌟</td><td class="mono" style="text-align:right">12° 18' 27"</td></tr>
+                                <tr><td style="color:#67E8F9;font-weight:600">💬 Меркурій</td><td>Водолій [Дім 1]</td><td class="mono" style="text-align:right">18° 12' 43"</td></tr>
+                                <tr><td style="color:#F9A8D4;font-weight:600">❤️ Венера</td><td>Водолій [Дім 1]</td><td class="mono" style="text-align:right">1° 38' 43"</td></tr>
+                                <tr><td style="color:#FCA5A5;font-weight:600">🔥 Марс</td><td>Терези [Дім 8] 📉</td><td class="mono" style="text-align:right">18° 13' 23"</td></tr>
+                                <tr><td style="color:#C4B5FD;font-weight:600">✨ Юпітер</td><td>Скорпіон [Дім 9]</td><td class="mono" style="text-align:right">10° 12' 25"</td></tr>
+                                <tr><td style="color:#FBBF24;font-weight:600">🪐 Сатурн</td><td>Терези [Дім 8] 🌟</td><td class="mono" style="text-align:right">21° 20' 00"</td></tr>
+                                <tr><td style="color:#5EEAD4;font-weight:600">🌀 Уран</td><td>Стрілець [Дім 10]</td><td class="mono" style="text-align:right">4° 36' 55"</td></tr>
+                                <tr><td style="color:#A5B4FC;font-weight:600">🌊 Нептун</td><td>Стрілець [Дім 12]</td><td class="mono" style="text-align:right">26° 52' 29"</td></tr>
+                                <tr><td style="color:#FDA4AF;font-weight:600">🔮 Плутон</td><td>Терези [Дім 8]</td><td class="mono" style="text-align:right">26° 35' 31"</td></tr>
+                                <tr style="background:rgba(99,102,241,0.08)"><td style="color:#C7D2FE;font-weight:600">🐉 Раху</td><td>Рак [Дім 7]</td><td class="mono" style="text-align:right">21° 10' 59"</td></tr>
+                                <tr style="background:rgba(99,102,241,0.08)"><td style="color:#C7D2FE;font-weight:600">🐉 Кету</td><td>Козеріг [Дім 1]</td><td class="mono" style="text-align:right">21° 10' 59"</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="houses" class="sc">
+                    <div class="ig">
+                        <div class="ic" style="border-color:rgba(59,130,246,0.3)"><h4 style="color:#93C5FD">🧭 Головні Кути</h4><ul style="list-style:none;padding:0"><li style="display:flex;justify-content:space-between;padding:0.3rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--t2)">ASC (I)</span><span class="mono">Стрілець 29° 26'</span></li><li style="display:flex;justify-content:space-between;padding:0.3rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--t2)">IC (IV)</span><span class="mono">Телець 24° 00'</span></li><li style="display:flex;justify-content:space-between;padding:0.3rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--t2)">DSC (VII)</span><span class="mono">Близнюки 29° 26'</span></li><li style="display:flex;justify-content:space-between;padding:0.3rem 0"><span style="color:var(--t2)">MC (X)</span><span class="mono">Скорпіон 24° 00'</span></li></ul></div>
+                        <div class="ic"><h4 style="color:#C4B5FD">🏠 Сітка Домів (Плацидус)</h4>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.25rem;font-size:0.75rem;margin-top:0.5rem;" class="mono">
+                                <div><span style="color:var(--t3)">I:</span> Стрілець 29°</div>
+                                <div><span style="color:var(--t3)">II:</span> Водолій 05°</div>
+                                <div><span style="color:var(--t3)">III:</span> Овен 00°</div>
+                                <div><span style="color:var(--t3)">IV:</span> Телець 24°</div>
+                                <div><span style="color:var(--t3)">V:</span> Близнюки 15°</div>
+                                <div><span style="color:var(--t3)">VI:</span> Близнюки 25°</div>
+                                <div><span style="color:var(--t3)">VII:</span> Близнюки 29°</div>
+                                <div><span style="color:var(--t3)">VIII:</span> Лев 05°</div>
+                                <div><span style="color:var(--t3)">IX:</span> Терези 00°</div>
+                                <div><span style="color:var(--t3)">X:</span> Скорпіон 24°</div>
+                                <div><span style="color:var(--t3)">XI:</span> Стрілець 15°</div>
+                                <div><span style="color:var(--t3)">XII:</span> Стрілець 25°</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ic" style="margin-top:0.75rem;"><h4 style="color:#C4B5FD">⚡️ Інтерцептовані Знаки</h4><p>Козеріг та Водолій повністю включені в I домі через північні широти. Це робить особистість багатошаровою — за зовнішнім фасадом Стрільця приховується структура Козерога та оригінальність Водолія.</p></div>
+                </div>
+                <div id="aspects" class="sc">
+                    <div style="display:flex;flex-direction:column;gap:0.75rem;">
+                        <div class="ic"><h4 style="color:#93C5FD"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#3B82F6;margin-right:0.4rem"></span>Сонце & Місяць</h4><p class="mono" style="font-size:0.72rem">☀️ тригон 🌙 (1.97°), ☀️ тригон ✨ (3.94°), ☀️ тригон 🐉 (7.03°). 🌙 тригон ✨ (1.97°), 🌙 квадрат 🔥 (6.04°).</p></div>
+                        <div class="ic"><h4 style="color:#F9A8D4"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#EC4899;margin-right:0.4rem"></span>Меркурій & Венера</h4><p class="mono" style="font-size:0.72rem">💬 тригон 🔥 (0.09°), 💬 тригон 🪐 (3.20°), 💬 квадрат ✨ (7.92°). ❤️ секстиль 🌀 (2.97°), ❤️ квадрат 🔮 (5.06°).</p></div>
+                        <div class="ic"><h4 style="color:#FCA5A5"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#EF4444;margin-right:0.4rem"></span>Стеліум 8-го дому</h4><p class="mono" style="font-size:0.72rem">🔥 з'єднання 🪐 (3.11°). 🪐 з'єднання 🔮 (5.26°). Усі у 8-му домі (Кризи та чужі ресурси).</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ 1. SUMMARY ═══ -->
+        <section id="summary" class="sec">
+            <div class="card">
+                <h2 class="sec-title"><span style="color:var(--blue)">🌟</span> Космічне Резюме</h2>
+                <div class="chw"><canvas id="summaryRadar" width="380" height="380"></canvas></div>
+                <div class="atxt" style="font-size:1.05rem;">
+                    <p>Твій космічний архетип — <b>"Стратегічна Імператриця"</b>. Ти народжена з рідкісною комбінацією: глибока водна інтуїція Сонця в Рибах поєднується з гострим повітряним розумом Меркурія та Венери у Водолії, а потужний стеліум Марса, Сатурна і Плутона у 8-му домі дає тобі здатність керувати кризами, трансформаціями та великими фінансовими потоками.</p>
+                    <p>Твій головний фокус у цьому втіленні — навчитися довіряти своїй феноменальній інтуїції та поєднувати її з жорсткою дисципліною. Ти не просто відчуваєш людей — ти бачиш їхні приховані мотиви, фінансові слабкості та психологічні шаблони. Це робить тебе ідеальним стратегом, якому довіряють свої таємниці.</p>
+                    <p>Твоя сила — це <b>Великий Водний Тригон</b> між Сонцем, Місяцем та Юпітером, який дає тобі екстрасенсорну здатність зчитувати поле і зцілювати інших просто своєю присутністю. Твій Місяць у Раку (у власному знаку) робить тебе емоційним лідером — людиною, до якої тягнуться за теплом, захистом та мудрістю.</p>
+                </div>
+                <div class="advice"><span class="advice__icon">💡</span><p class="advice__text"><b>Головна порада:</b> Довіряй своїй інтуїції у фінансових та кар'єрних питаннях так само сильно, як ти довіряєш логіці. Твій успіх лежить на перетині містики і суворих цифр. Коли щось "не відчувається правильним" — не ігноруй це, навіть якщо цифри виглядають ідеально.</p></div>
+            </div>
+        </section>
+
+        <!-- ═══ 2. CORE ═══ -->
+        <section id="core" class="sec">
+            <div class="card">
+                <h2 class="sec-title"><span style="color:var(--amber)">✨</span> Ядро Особистості: Хто Ти Насправді?</h2>
+                <div class="chw"><canvas id="elementDonut" width="320" height="320"></canvas></div>
+                <div class="atxt">
+                    <p>Твоя "Золота Трійка" утворює надзвичайно складний та цікавий парадокс. <b>Сонце в Рибах (14°, 2-й дім)</b> — це серцевина твоєї сутності. Воно робить тебе надзвичайно емпатичною, творчою та глибоко інтуїтивною людиною. Ти буквально "зчитуєш" поле навколо себе: відчуваєш настрій кімнати ще до того, як хтось відкриє рот. Рибна Сонячна енергія наділяє тебе здатністю бачити красу там, де інші бачать хаос, і розуміти людей на рівні, який не піддається раціональному поясненню. Сонце у 2-му домі додає до цього фокус на цінностях, ресурсах та матеріальному виміри — ти не просто мрійниця, ти мрійниця, яка шукає конкретне "заземлення" своїх візій.</p>
+                    <p>Твій <b>Асцендент у Стрільці (29°26')</b> одягає на тебе зовнішню маску життєрадісної, впевненої оптимістки. Люди при першій зустрічі бачать тебе як відкриту, щедру, любительку подорожей і нових ідей. Стрілець на куспіді 1-го дому створює враження легкості та нескінченного ентузіазму. Але це лише фасад — за ним ховається набагато складніша конструкція. Важливо: 29° Стрільця — це анаретичний градус, "градус долі", який підсилює прагнення знайти свою місію, філософію та сенс життя.</p>
+                    <p>А ось твій <b>Місяць у Раку (12°, 7-й дім) у власному знаку</b> — це одна з найпотужніших позицій Місяця у всьому Зодіаку (Domicile). Він жадає тотальної емоційної безпеки, "панцира", власного гнізда та сім'ї, яку ти зможеш захищати. Місяць у 7-му домі переносить ці потреби безпеки прямо у простір партнерства — ти шукаєш не просто коханця, а людину, яка стане твоєю "домівкою". Конфлікт між твоїм легким, відкритим Асцендентом (Стрілець) і дуже обережним, сімейним Місяцем (Рак) робить тебе складною для розуміння іншими — і навіть для самої себе.</p>
+                    <p>Додатковий потужний фактор — <b>Меркурій у Водолії (18°, 1-й дім)</b>. Твій розум — це потужний комп'ютер. Ти генеруєш нестандартні рішення, завжди бачиш систему там, де інші бачать хаос, і мислиш на кілька кроків вперед. Меркурій у 1-му домі означає, що інтелект є твоєю першою зброєю і першим враженням, яке ти справляєш. Те, що Меркурій знаходиться у точному тригоні до Марса (орб 0.09°!) — один з найточніших аспектів у твоїй карті — наділяє тебе блискавичною швидкістю мислення та здатністю перетворювати ідеї у дії.</p>
+                </div>
+                <div class="fg">
+                    <div class="fl fl--r"><div class="fl__t">🚩 Втрата енергії</div><ul class="fl__l"><li>Перебування в середовищі бездушних правил, де не цінують твою емпатію та інтуїцію</li><li>Ігнорування внутрішнього голосу заради "сухої логіки" або чужих очікувань</li><li>Перевантаження чужими емоціями без захисного "енергетичного панцира"</li></ul></div>
+                    <div class="fl fl--g"><div class="fl__t">✅ Джерело сили</div><ul class="fl__l"><li>Створення свого "закритого клубу" або безпечного простору для глибокого мислення</li><li>Вирішення складних інтелектуальних задач, де потрібна і логіка, і інтуїція</li><li>Близькість до води — фізична та метафорична</li></ul></div>
+                </div>
+                <div class="advice"><span class="advice__icon">💡</span><p class="advice__text"><b>Порада:</b> Твій Місяць у Раку вимагає безпеки та ритуалів. Спробуй щоранку виділяти 15 хвилин на перебування в повній тиші у своєму "затишному куточку" — з чаєм, без телефона. Це переналаштує твою інтуїцію на цілий день і створить той "панцир" безпеки, який тобі так необхідний.</p></div>
+                <div class="cq"><p class="cq__lab">Питання для рефлексії</p><p class="cq__q">Де ти граєш роль безтурботної оптимістки (маска Стрільця), хоча насправді потребуєш глибокої емоційної підтримки і дозволу бути вразливою (Місяць у Раку)?</p></div>
+            </div>
+        </section>
+
+        <!-- ═══ 3. LOVE ═══ -->
+        <section id="love" class="sec">
+            <div class="card">
+                <h2 class="sec-title"><span style="color:var(--pink)">❤️</span> Кохання та Стосунки: Твій Сценарій</h2>
+                <div class="chw"><canvas id="loveRadar" width="380" height="380"></canvas></div>
+                <div class="atxt">
+                    <p>У стосунках ти є справжньою головоломкою — як для чоловіків, так і для самої себе. Твоя <b>Венера у Водолії (1°38', 1-й дім)</b> формує твою "мову кохання". Для тебе найвищим проявом любові є абсолютна інтелектуальна свобода і дружба. Ти не терпиш кліток, ревнощів та спроб контролювати тебе. Тобі потрібен чоловік-соратник, з яким можна говорити годинами про все на світі — від квантової фізики до останнього випуску подкасту. Венера у 1-му домі робить тебе привабливою від природи — тебе помічають одразу при вході до будь-якої кімнати, навіть коли ти цього не усвідомлюєш.</p>
+                    <p>Твій <b>Десцендент у Близнюках (7-й дім)</b> — це "дзеркало партнерства", яке показує, кого ти підсвідомо притягуєш і чого потребуєш від партнера. Близнюки на DSC означають, що тебе магнітять чоловіки комунікабельні, розумні, можливо навіть дещо поверхові або "двоїсті". Тобі потрібен партнер, який розвантажить тебе словом, гумором, легкістю — бо всередині тебе (Стрілець ASC, Риби Сонце) дуже багато глибини, і іноді потрібен хтось, хто скаже "а давай просто поїдемо кудись?"</p>
+                    <p>Але найцікавіше — це твій <b>Марс у Терезах у 8-му домі (18°13') у з'єднанні з Сатурном та Плутоном</b>. Це один з наймогутніших стеліумів, які можна уявити в контексті інтимного життя та глибоких зв'язків. Марс у деттрименті (у Терезах) означає, що твоя сексуальна та вольова енергія виражається не через прямий "захват", а через дипломатію, естетику та стратегію. У 8-му домі (дім криз, секретів, трансформацій та чужих ресурсів) ця енергія набуває колосальної глибини. Тебе збуджує не поверхневий флірт, а глибока трансформаційна криза. Тебе притягують чоловіки, які володіють владою, ресурсами або пройшли через серйозні життєві випробування.</p>
+                    <p>Венера у <b>квадратурі до Плутона (орб 5.06°)</b> — це один з найскладніших аспектів у любовних стосунках. Він створює патерн "фатальної пристрасті": ти можеш тягнутися до руйнівних, але неймовірно інтенсивних зв'язків. Тобі складно "відпускати" людей, навіть коли стосунки давно себе вичерпали. Кожне кохання — це маленька смерть і відродження. Якщо ти відчуваєш, що застрягаєш у сценаріях, які приносять біль — пам'ятай, що звертатися по психологічну підтримку для пропрацювання цих патернів є ознакою твоєї величезної сили, а не слабкості.</p>
+                </div>
+                <div class="fg">
+                    <div class="fl fl--r"><div class="fl__t">🚩 Блокатори</div><ul class="fl__l"><li>Спроби "врятувати" слабкого партнера, замість того щоб шукати рівного</li><li>Злиття з партнером настільки, що ти втрачаєш свою водоліївську незалежність</li><li>Плутання емоційних "гойдалок" та драми з реальною пристрастю</li></ul></div>
+                    <div class="fl fl--g"><div class="fl__t">✅ Точки росту</div><ul class="fl__l"><li>Побудова стосунків, де ви спочатку друзі і бізнес-партнери, а потім — коханці</li><li>Відкрита комунікація про свої потреби, сексуальні фантазії та кордони</li><li>Пошук партнера з сильним інтелектом і власною фінансовою базою</li></ul></div>
+                </div>
+                <div class="advice"><span class="advice__icon">💡</span><p class="advice__text"><b>Порада:</b> Твоя Венера у Водолії каже, що для тебе кохання — це партнерство рівних. Не бійся просити про особистий простір, навіть перебуваючи у шлюбі — це не "холодність", це твоя справжня природа. Партнер, який це поважає, стане твоїм найміцнішим союзником.</p></div>
+                <div class="cq"><p class="cq__lab">Питання для рефлексії</p><p class="cq__q">Чи не плутаєш ти іноді емоційні "американські гірки" (Плутон) з реальною пристрастю? Де закінчується здорова інтенсивність і починається залежність?</p></div>
+            </div>
+        </section>
+
+        <!-- ═══ 4. ROOTS ═══ -->
+        <section id="roots" class="sec">
+            <div class="card">
+                <h2 class="sec-title"><span style="color:var(--amber)">🏡</span> Родина, Рід та Кармічний Фундамент</h2>
+                <div class="atxt">
+                    <p>Твій <b>IC (Imum Coeli) у Тельці (24°00')</b> — це твій внутрішній фундамент, кореневий чакр твоєї психіки. Телець на куспіді 4-го дому вказує на те, що для тебе "дім" — це не абстрактне поняття. Це фортеця, яка повинна забезпечувати абсолютну матеріальну стабільність, ситість, комфорт і красу. Ти потребуєш відчуття, що під ногами є тверда земля — буквально. З дитинства ти могла засвоїти глибинну установку: "Любов вимірюється надійністю і ресурсами. Якщо є їжа на столі, тепло в домі та гроші на рахунку — значить, тебе кохають."</p>
+                    <p>Цікаво, що управителем 4-го дому (Телець) є <b>Венера, і вона знаходиться у Водолії у 1-му домі</b>. Це створює внутрішній конфлікт між потребою в стабільному, традиційному домі (Телець на IC) та бажанням свободи і нетрадиційного укладу (Венера у Водолії). Ти можеш одночасно мріяти про класичну заміську садибу з каміном І про кочовий спосіб життя з ноутбуком. Це не "розколотість" — це твоя суперсила: ти здатна побудувати дім, який буде одночасно стабільним і абсолютно унікальним.</p>
+                    <p>Вплив <b>потужного Сатурна у Терезах (екзальтація, 8-й дім)</b> на тему сім'ї полягає у тому, що ти з дитинства могла відчувати надмірну відповідальність за близьких. Можливо, ти рано повзорілішала або була змушена стати "дорослою" в ситуаціях, де інші діти могли бути просто дітьми. Сатурн екзальтований — це означає, що ця відповідальність НЕ зламала тебе, а зробила неймовірно сильною. Ти — "скеля", на яку спирається вся родина, навіть якщо це іноді виснажує.</p>
+                    <p>Місяць у Раку у 7-му домі додатково підсилює тему роду: ти носиш у собі емоційну пам'ять не тільки свого дитинства, але й попередніх поколінь. Жіноча лінія твого роду (мама, бабуся) має надзвичайний вплив на формування твоїх переконань про безпеку, любов та гроші. Розпізнавання та свідомий перегляд цих установок може стати ключем до багатьох трансформацій у твоєму житті.</p>
+                </div>
+                <div class="fg">
+                    <div class="fl fl--r"><div class="fl__t">🚩 Блокатори</div><ul class="fl__l"><li>Накопичення речей "на чорний день" через глибинний страх бідності (спадок роду)</li><li>Небажання пускати нових людей у свій закритий домашній світ</li><li>Повторення токсичних родових патернів стосовно контролю через ресурси</li></ul></div>
+                    <div class="fl fl--g"><div class="fl__t">✅ Точки росту</div><ul class="fl__l"><li>Створення естетичного, багатого і стабільного домашнього інтер'єру, який буде ТВОЇМ, а не "як у мами"</li><li>Інвестиції в нерухомість як родове гніздо — земля і "стіни" заспокоюють твій IC у Тельці</li><li>Свідомий діалог із жіноками лінією роду: прощення, подяка, відпускання</li></ul></div>
+                </div>
+                <div class="advice"><span class="advice__icon">💡</span><p class="advice__text"><b>Порада:</b> Твоєму фундаменту потрібен дотик до землі. Спробуй вирощувати вазонки, працювати в саду або купити першу інвестицію в "цеглу" (нерухомість) — це буквально "заземлює" твоє IC у Тельці і дає відчуття стабільності, яке не може дати жоден банківський рахунок.</p></div>
+                <div class="cq"><p class="cq__lab">Питання для рефлексії</p><p class="cq__q">Чиї родові борги, очікування чи нереалізовані мрії ти продовжуєш "оплачувати" своєю енергією? Які установки про безпеку і гроші ти отримала від мами та бабусі — і чи є вони досі актуальними?</p></div>
+            </div>
+        </section>
+
+        <!-- ═══ 5. CAREER ═══ -->
+        <section id="career" class="sec">
+            <div class="card">
+                <h2 class="sec-title"><span style="color:var(--amber)">👑</span> Кар'єра та Визнання</h2>
+                <div id="careerBars" style="margin:1rem 0">
+                    <div class="bar-row"><div class="bar-lab">Фінансовий менеджмент</div><div class="bar-trk"><div class="bar-fill" data-value="95%" data-target="95" style="background:linear-gradient(90deg,#3B82F6,#8B5CF6)"></div></div></div>
+                    <div class="bar-row"><div class="bar-lab">Аудит / Розслідування</div><div class="bar-trk"><div class="bar-fill" data-value="90%" data-target="90" style="background:linear-gradient(90deg,#8B5CF6,#EC4899)"></div></div></div>
+                    <div class="bar-row"><div class="bar-lab">Психологія / Коучинг</div><div class="bar-trk"><div class="bar-fill" data-value="85%" data-target="85" style="background:linear-gradient(90deg,#06B6D4,#3B82F6)"></div></div></div>
+                    <div class="bar-row"><div class="bar-lab">Підприємництво</div><div class="bar-trk"><div class="bar-fill" data-value="80%" data-target="80" style="background:linear-gradient(90deg,#10B981,#06B6D4)"></div></div></div>
+                    <div class="bar-row"><div class="bar-lab">Креативні індустрії</div><div class="bar-trk"><div class="bar-fill" data-value="70%" data-target="70" style="background:linear-gradient(90deg,#F59E0B,#EF4444)"></div></div></div>
+                </div>
+                <div class="atxt">
+                    <p>Твій <b>MC (Midheaven) у Скорпіоні (24°00')</b> — це показник потужних, але часто прихованих амбіцій. Скорпіон на вершині кар'єри вказує, що твоє професійне покликання лежить у сферах, де потрібно працювати з прихованим, секретним, кризовим або чужими ресурсами. Це аудит, фінансовий менеджмент, криз-менеджмент, психологія, розслідування, інвестиції або навіть форензіка. Ти ідеальний "сірий кардинал", який керує процесами з-за лаштунків, не потребуючи зовнішньої слави.</p>
+                    <p><b>Уран у Стрільці на куспіді 10-го дому (4°36')</b> додає до цього неочікуваний поворот: твоя кар'єра може мати "блискавичні" зміни напрямку, несподівані злети та нетрадиційний шлях. Ти не та, хто 30 років сидить на одній посаді. Ти — та, хто раптово стає експертом у новій галузі або створює свій бізнес "з нуля" після 40.</p>
+                    <p>Меркурій у <b>точному тригоні до Марса (0.09°!)</b> — це твоя суперзброя у бізнесі. Цей аспект дає тобі здатність миттєво аналізувати ситуацію, приймати рішення та діяти. У переговорах тобі немає рівних. Ти бачиш слабкі місця опонента і знаєш, як перетворити кризу на можливість.</p>
+                    <p>Те, що Марс, Сатурн і Плутон утворюють <b>стеліум у 8-му домі</b>, означає: ти розквітаєш там, де інші ламаються. Коли в компанії криза, податкова перевірка або фінансова нестабільність — твій розум вмикається на 100%. Люди інтуїтивно довіряють тобі свої таємниці та свої гроші, бо відчувають твою Сатурнівську надійність та Плутонівську глибину.</p>
+                </div>
+                <div class="fg">
+                    <div class="fl fl--r"><div class="fl__t">🚩 Блокатори</div><ul class="fl__l"><li>Страх вийти "на світло" і заявити про свій масштаб публічно</li><li>Застрягання на позиціях, де немає виклику, ризику та трансформації</li><li>Зневіра до власних амбіцій через "синдром самозванця"</li></ul></div>
+                    <div class="fl fl--g"><div class="fl__t">✅ Точки росту</div><ul class="fl__l"><li>Професії, пов'язані з чужими ресурсами (фінанси, інвестиції, бухгалтерія)</li><li>Робота з конфіденційною інформацією та трансформацією бізнесу</li><li>Створення власного бренду як фінансового консультанта або коуча</li></ul></div>
+                </div>
+                <div class="advice"><span class="advice__icon">💡</span><p class="advice__text"><b>Порада:</b> Ніколи не працюй там, де все ідеально, спокійно і передбачувано. Твоя енергія зростає лише тоді, коли ти рятуєш, трансформуєш або виправляєш чужі помилки. Шукай компанії у стадії кризи або росту — там ти станеш незамінною.</p></div>
+                <div class="cq"><p class="cq__lab">Питання для рефлексії</p><p class="cq__q">Що насправді заважає тобі стати "головною фігурою" у твоєму професійному житті — брак компетенцій чи страх відповідальності?</p></div>
+            </div>
+        </section>
+
+        <!-- ═══ 6. WEALTH ═══ -->
+        <section id="wealth" class="sec">
+            <div class="card">
+                <h2 class="sec-title"><span style="color:var(--emerald)">💰</span> Фінансовий Канал</h2>
+                <div class="chw"><canvas id="finGauge" width="340" height="220"></canvas></div>
+                <div class="atxt">
+                    <p>Твій фінансовий потенціал — один з найпотужніших у цій карті. <b>2-й дім (твої власні гроші) знаходиться у Рибах</b>, і тут живе твоє Сонце. Це означає, що ти можеш заробляти інтуїтивно — іноді гроші приходять до тебе буквально "з повітря", через таємні джерела, або ти відчуваєш фінансові тренди на рівні підсвідомості раніше, ніж їх побачать аналітики. Однак є і ризик: Риби у 2-му домі можуть створювати "розмитість" у ставленні до грошей — то густо, то пусто, то щедрість на межі марнотратства, то раптовий страх за завтрашній день.</p>
+                    <p>Але справжній шедевр — це твій <b>8-й дім</b>. Стеліум Марса, Сатурна та Плутона у Терезах у 8-му домі — це дім великих фінансів, чужих ресурсів, інвестицій, кредитів, страхування та спадщини. З'єднання таких потужних планет у цьому домі робить тебе магнітом для капіталу. Ти не просто заробляєш — ти управляєш потоками, ти знаєш, як "перерозподілити" ресурси з максимальним ефектом. Сатурн в екзальтації гарантує дисципліну і довгостроковий підхід, а Плутон дає владу над трансформацією будь-якого активу.</p>
+                    <p><b>Юпітер у Скорпіоні (10°, 9-й дім)</b> додає ще один фінансовий канал — через міжнародні зв'язки, вищу освіту та філософсько-стратегічні проекти. Юпітер у тригоні до Сонця (орб 3.94°) — це "золотий аспект", який відкриває двері у фінансове зростання через знання, навчання та менторство.</p>
+                    <p>Загроза полягає у тому, що <b>Венера у квадратурі до Плутона</b> може створювати патерн "все або нічого" у фінансах: періоди надзвичайного нагромадження ресурсів чергуються з періодами раптових втрат або "добровільного відмовлення" від грошей заради емоційних причин.</p>
+                </div>
+                <div class="fg">
+                    <div class="fl fl--r"><div class="fl__t">🚩 Блокатори</div><ul class="fl__l"><li>Страх втратити контроль над власними грошима (Сатурн у 8-му)</li><li>Заробляння лише "своїми руками" замість використання кредитного плеча та партнерських інвестицій</li><li>Обмежуюче переконання "великі гроші — це небезпечно або нечесно"</li></ul></div>
+                    <div class="fl fl--g"><div class="fl__t">✅ Точки росту</div><ul class="fl__l"><li>Управління інвестиційними портфелями або корпоративними рахунками</li><li>Пасивний дохід через партнерство та оптимізацію оподаткування</li><li>Роль Fractional CFO або фінансового ментора</li></ul></div>
+                </div>
+                <div class="advice"><span class="advice__icon">💡</span><p class="advice__text"><b>Порада:</b> Твоя фінансова ємність стає безмежною, коли ти працюєш зі спільними або чужими ресурсами. Перестань думати лише про "свій рахунок" — почни думати про "портфель". Один клієнт, якому ти оптимізуєш фінанси, принесе тобі більше, ніж місяць власної роботи "руками".</p></div>
+                <div class="cq"><p class="cq__lab">Питання для рефлексії</p><p class="cq__q">Яка обмежуюча думка з дитинства (або від мами/бабусі) досі змушує тебе боятися великих, ризикованих інвестицій — і чи є ця думка ще актуальною?</p></div>
+            </div>
+        </section>
+
+        <!-- ═══ 7. KARMA ═══ -->
+        <section id="karma" class="sec">
+            <div class="card">
+                <h2 class="sec-title"><span style="color:var(--purple)">🔮</span> Кармічні Уроки</h2>
+                <div style="padding:1rem 0">
+                    <div class="karma-line">
+                        <div class="karma-lbl karma-lbl--s">♑ Козеріг<br><span style="font-weight:400;font-size:0.65rem;color:var(--t3)">Контроль · Жорсткість</span></div>
+                        <div class="karma-lbl karma-lbl--e">♋ Рак<br><span style="font-weight:400;font-size:0.65rem;color:var(--t3)">Емпатія · Сім'я</span></div>
+                        <div class="karma-prog" id="karmaProg"></div>
+                        <div class="karma-dot" id="karmaDot"></div>
+                        <div class="karma-lbl karma-lbl--c" id="karmaLbl">Твій шлях: 42%</div>
+                    </div>
+                </div>
+                <div class="atxt" style="margin-top:1rem;">
+                    <p>Кармічні Вузли — це маршрут твоєї душі, GPS-навігатор, що показує "звідки ти йдеш" і "куди тобі потрібно прийти". Твій <b>Південний Вузол у Козерозі (21°10', 1-й дім)</b> вказує на те, що в минулому втіленні (або в ранньому дитинстві) ти сформувала потужний патерн: бути жорстким управлінцем, кар'єристом, людиною, яка спирається лише на правила, дисципліну та статус. Тобі дуже комфортно бути емоційно холодною, контролювати все довкола і будувати "вертикаль влади". Це не погано — це твоя відправна точка, твій "бекграунд".</p>
+                    <p>Але твоє завдання в цьому втіленні — <b>Північний Вузол у Раку (21°10', 7-й дім)</b>. Це шлях до емпатії, вразливості, довіри та вміння створювати сім'ю. Твоя найвища місія — перенести фокус із досягнень на почуття, із контролю — на турботу, із "я все сам/сама" — на "я довіряю іншим". Те, що Північний Вузол знаходиться у 7-му домі (дім партнерства), підкреслює: кармічний ріст відбувається саме через стосунки з іншою людиною.</p>
+                    <p>Потужний момент: твій <b>Місяць у Раку з'єднаний з Північним Вузлом</b> (орб близько 9°, але в одному знаку і домі). Це говорить про те, що Всесвіт дав тобі найпотужніший інструмент для проходження кармічного уроку — надзвичайно розвинену емоційну чутливість. Ти вже маєш усе необхідне; залишилося лише дозволити собі це проявляти замість того, щоб ховатися за Козерогівською бронею.</p>
+                    <p>Важливо розуміти: кармічна робота — це не "забути" Козерога. Це знайти баланс. Ти маєш право бути і сильною, і вразливою. Ідеальний стан — коли ти можеш провести жорсткі переговори вранці (Козеріг), а ввечері готувати улюблену страву для рідних, дозволяючи собі плакати під гарний фільм (Рак).</p>
+                </div>
+                <div class="fg">
+                    <div class="fl fl--r"><div class="fl__t">🚩 Блокатори</div><ul class="fl__l"><li>Втеча в роботу щоразу, коли виникають проблеми в особистому житті</li><li>Бажання все контролювати і невміння просити про допомогу</li><li>Засудження власної "слабкості" — сліз, тривоги, потреби в обіймах</li></ul></div>
+                    <div class="fl fl--g"><div class="fl__t">✅ Точки росту</div><ul class="fl__l"><li>Свідоме виділення часу на сім'ю, навіть якщо горять дедлайни</li><li>Вміння проявляти вразливість поруч із коханою людиною</li><li>Щоденне запитання: "Що я відчуваю прямо зараз?" — замість "Що я маю зробити?"</li></ul></div>
+                </div>
+                <div class="advice"><span class="advice__icon">💡</span><p class="advice__text"><b>Порада:</b> Щоразу, коли ти відчуваєш бажання стати "холодною і жорсткою" в конфлікті, зроби паузу і запитай себе: "Це моя справжня реакція чи автопілот Козерога?" Твоє кармічне завдання — обрати м'якість і щирість замість броні. Це буде непросто. Але саме це відкриє двері, які ніколи не відкриються для "жорсткого менеджера".</p></div>
+                <div class="cq"><p class="cq__lab">Питання для рефлексії</p><p class="cq__q">Що для тебе страшніше: провалити важливий робочий проект чи показати людині, яку кохаєш, свою повну емоційну залежність від неї?</p></div>
+            </div>
+        </section>
+
+        <!-- ═══ 8. SHADOW ═══ -->
+        <section id="shadow" class="sec">
+            <div class="card">
+                <h2 class="sec-title"><span style="color:var(--t3)">🌑</span> Тіньова Сторона та Зцілення</h2>
+                <div class="chw" id="shadowContainer" style="margin-bottom:1.5rem; transition: opacity 2s ease-out, max-height 1.5s ease-out, margin 1.5s ease-out; max-height:350px; overflow:hidden; opacity:1;"><canvas id="shadowPulse" width="300" height="300"></canvas></div>
+                <div class="atxt">
+                    <p>Твій <b>Хірон у Тельці</b> — це ключ до найглибшої рани і найбільшої сили одночасно. Хірон у Тельці вказує на базову, первісну рану, пов'язану зі страхом бідності, втрати матеріальної опори або відчуття "я не вартий/а цього". Можливо, в якийсь момент твого дитинства або юності ти відчула тотальну фінансову вразливість — коли земля буквально ішла з-під ніг. Або це була не гроші, а відчуття, що тебе не цінують на фізичному, тілесному рівні — не обіймають, не годують тим, чим треба, не дають відчути "я у безпеці".</p>
+                    <p>Парадокс Хірона полягає в тому, що саме ця "рана" стає твоєю суперсилою. Ти знаєш ціну ресурсам, як ніхто інший. Ти розумієш, що таке "не мати" — і це робить тебе геніальною у створенні, зберіганні та примноженні багатства. Люди з Хіроном у Тельці часто стають найкращими фінансовими консультантами, бухгалтерами та кризовими менеджерами — бо вони відчувають гроші "шкірою".</p>
+                    <p>Твоя <b>Ліліт (Чорна Місяць)</b> додає ще один шар тіні. Ліліт — це придушена "дика" енергія, яку суспільство змушує тебе ховати. У твоєму випадку це може бути жага до влади, контролю або інтенсивних емоційних переживань, які ти вважаєш "неприйнятними". Ліліт каже: "Перестань вибачатися за свою силу. Перестань ховати свою амбіціозність під маскою скромності."</p>
+                    <p>Плутон у 8-му домі створює іноді підсвідому потребу домінувати в кризових ситуаціях. Коли ти не контролюєш фінанси або емоції партнера, тебе може охоплювати тривога. Це нормально — але важливо навчитися розрізняти "здорову пильність" і "тривожний контроль". Якщо ти помічаєш, що контроль починає руйнувати стосунки — це сигнал, що внутрішня робота потребує уваги, і професійна підтримка може значно прискорити цей процес.</p>
+                </div>
+                <div class="fg">
+                    <div class="fl fl--r"><div class="fl__t">🚩 Блокатори</div><ul class="fl__l"><li>Маніпуляції ресурсами у стосунках як спосіб утримати контроль</li><li>Неможливість розслабитися через постійне очікування фінансового краху</li><li>Засудження себе за "жадібність" або "зайву амбіціозність"</li></ul></div>
+                    <div class="fl fl--g"><div class="fl__t">✅ Точки росту</div><ul class="fl__l"><li>Трансформація страху бідності у фінансовий консалтинг для інших — "лікуй інших своєю раною"</li><li>Вивчення психології грошей та тілесних практик (масаж, SPA, йога)</li><li>Щоденне запитання: "Що мені ВИСТАЧАЄ прямо зараз?" — замість "Чого мені НЕ ВИСТАЧАЄ?"</li></ul></div>
+                </div>
+                <div class="advice"><span class="advice__icon">💡</span><p class="advice__text"><b>Порада:</b> Прийми свою тінь цілком — свою жагу до матеріальної стабільності, свою потребу контролювати ресурси. У цьому немає нічого ганебного. Направляй цю енергію не на тривогу, а на інвестиції, консалтинг та допомогу іншим у вирішенні їхніх фінансових криз.</p></div>
+                <div class="cq"><p class="cq__lab">Питання для рефлексії</p><p class="cq__q">Якби гроші більше ніколи не були проблемою — якби у тебе було "достатньо" назавжди — яку справжню безпеку ти б почала шукати? Що ховається ЗА страхом бідності?</p></div>
+            </div>
+        </section>
+
+        <!-- ═══ 9. ENERGY BALANCE ═══ -->
+        <section id="energy" class="sec">
+            <div class="card">
+                <h2 class="sec-title"><span style="color:var(--cyan)">⚖️</span> Колесо Балансу</h2>
+                <div class="chw"><canvas id="wheelOfLife" width="400" height="400"></canvas></div>
+                <div class="atxt">
+                    <p>Твоя карта містить розкішний <b>Великий Водний Тригон</b> між Сонцем (Риби), Місяцем (Рак) та Юпітером (Скорпіон). Ця рідкісна конфігурація наділяє тебе екстрасенсорною емпатією, здатністю зцілювати інших своєю присутністю та глибоким зв'язком з підсвідомістю. Вода — це твоя стихія, і твої емоції є твоїм головним компасом. Коли ти відчуваєш щось "нутром" — це не вигадка, це твій Великий Тригон працює.</p>
+                    <p><b>Розподіл стихій</b> у твоїй карті нерівномірний: Вода домінує (Сонце, Місяць, Юпітер, Раху) — ~40%. Повітря сильне (Меркурій, Венера у Водолії) — ~30%. Вогонь присутній через Асцендент, Уран та Нептун у Стрільці — ~15%. Земля представлена Південним Вузлом у Козерозі та IC у Тельці — ~15%. Це означає, що у тебе надзвичайно розвинений емоційний та інтелектуальний інтелект, але може не вистачати "приземленості" та "вогню дії".</p>
+                    <p><b>Фаза Місяця при народженні — Зростаючий Gibbous (118°)</b>. Ця фаза говорить про те, що ти народилася у період "вдосконалення". Ти прагнеш покращити все, до чого торкаєшся. Тобі складно зупинитися на "досить добре" — ти завжди бачиш, як зробити ще краще. Це може бути і силою (перфекціонізм), і слабкістю (ніколи не відчуваєш задоволення).</p>
+                    <p>Твій Марс у <b>Терезах (деттримент)</b> означає, що ти схильна зважувати всі "за" і "проти" замість того, щоб діяти імпульсивно. Це робить тебе чудовим стратегом, але іноді заважає "просто зробити" — ти можеш годинами аналізувати рішення, яке інша людина прийняла б за хвилину. Компенсуй це: шукай "вогняних" партнерів або встановлюй жорсткі дедлайни для прийняття рішень.</p>
+                </div>
+                <div class="fg">
+                    <div class="fl fl--r"><div class="fl__t">🚩 Блокатори</div><ul class="fl__l"><li>Схильність "тонути" в емоціях інших людей, втрачаючи власну ідентичність</li><li>Звичка довго сумніватися перед стартом нового проекту (Марс у Терезах)</li><li>Перфекціонізм фази Зростаючого Місяця: "недостатньо добре" як привід не починати</li></ul></div>
+                    <div class="fl fl--g"><div class="fl__t">✅ Точки росту</div><ul class="fl__l"><li>Перебування біля води або регулярні водні процедури для перезавантаження</li><li>Залучення "вогняних" партнерів (Овен, Лев, Стрілець), які підштовхують до дій</li><li>Правило "5 секунд": якщо інтуїція каже "так" — дій, не чекай</li></ul></div>
+                </div>
+                <div class="advice"><span class="advice__icon">💡</span><p class="advice__text"><b>Порада:</b> Твоя інтуїція (Вода) працює бездоганно — довіряй їй. Але для реалізації планів тобі іноді треба штучно додавати "вогню": жорсткі дедлайни, публічні обіцянки, партнер-каталізатор. Вода знає, КУДИ текти — але Вогонь змушує текти ШВИДШЕ.</p></div>
+                <div class="cq"><p class="cq__lab">Питання для рефлексії</p><p class="cq__q">У яких ситуаціях ти занадто довго зважуєш рішення, коли перша емоція вже дала тобі правильну відповідь — і що б змінилося, якби ти довірилася їй одразу?</p></div>
+            </div>
+        </section>
+
+        <!-- ═══ 10. FUTURE ═══ -->
+        <section id="future" class="sec">
+            <div class="card">
+                <h2 class="sec-title"><span style="color:#D946EF">⚡️</span> Навігатор на 6 місяців</h2>
+                <div style="padding:1rem 0">
+                    <div class="tl-track" id="futureTimeline">
+                        <div class="tl-item"><div class="tl-per">Літо 2026</div><div class="tl-tit">💰 Фінансовий Перегляд</div><div class="tl-desc">Юпітер активує вісь твоїх доходів. Це ідеальний період для повного перегляду фінансових потоків, запуску нових джерел доходу та інвестицій. Не бійся просити більше — Всесвіт зараз підтримує твоє фінансове зростання. Зверни особливу увагу на можливості у сфері партнерського бізнесу та управління чужими ресурсами.</div></div>
+                        <div class="tl-item"><div class="tl-per">Осінь 2026</div><div class="tl-tit">🤝 Нові Партнерства</div><div class="tl-desc">Сатурн вимагає структурувати всі твої відносини — і ділові, і особисті. Те, що раніше трималося на компромісах та недомовленостях, має бути чітко обговорено або відпущено. Це може бути болісний, але надзвичайно продуктивний період: все, що залишиться після "фільтрації Сатурна", буде міцним, як алмаз.</div></div>
+                        <div class="tl-item"><div class="tl-per">Зима 2026–27</div><div class="tl-tit">🚀 Кар'єрний Прорив</div><div class="tl-desc">Транзитний Плутон формує потужний аспект до натального MC. Це період трансформації твого публічного іміджу та професійного статусу. Можливий кардинальний зсув кар'єри: від найманого працівника до експерта з власним брендом, від тіньового виконавця до публічного лідера. Не пручайся змінам — вони ведуть до тебе-справжньої.</div></div>
+                    </div>
+                </div>
+                <div class="atxt">
+                    <p>Наступні 6 місяців — це <b>вікно можливостей для монетизації твоїх компетенцій</b>. Юпітер дає тобі величезні шанси для перегляду доходів і запуску нових фінансових потоків. Сатурн структурує стосунки, а Плутон трансформує кар'єру. Це рідкісне "потрійне вікно", коли одночасно відкриваються двері у фінансах, стосунках і кар'єрі.</p>
+                    <p>Ключовий виклик цього періоду: <b>відпустити старі моделі безпеки</b>. Те, що захищало тебе раніше (контроль, жорсткість, "тиха робота за лаштунками"), може стати перешкодою для наступного рівня. Новий рівень вимагає нової версії тебе — більш відкритої, більш видимої і, як не парадоксально, більш вразливої.</p>
+                </div>
+                <div class="fg">
+                    <div class="fl fl--r"><div class="fl__t">🚩 Блокатори</div><ul class="fl__l"><li>Опір змінам у професійній сфері — бажання "пересидіти"</li><li>Утримання стосунків, які вже вичерпали себе, лише зі страху самотності</li></ul></div>
+                    <div class="fl fl--g"><div class="fl__t">✅ Точки росту</div><ul class="fl__l"><li>Інвестиції у свій особистий бренд як спеціаліста з фінансів</li><li>Формування нових партнерств на базі спільних цінностей, а не спільних страхів</li></ul></div>
+                </div>
+                <div class="advice"><span class="advice__icon">💡</span><p class="advice__text"><b>Порада:</b> Зроби одну "публічну дію" цього літа: напиши першу статтю, запиши відео, створи профіль експерта або просто розкажи комусь впливовому про свої компетенції. Плутон на MC не любить тих, хто ховається.</p></div>
+                <div class="cq"><p class="cq__lab">Питання для рефлексії</p><p class="cq__q">Який масштабний проект ти б розпочала прямо сьогодні, якби знала напевно, що він приречений на успіх — і що тебе зупиняє від того, щоб спробувати?</p></div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer"><p class="footer__t">Destiny Code • Premium • 2026</p></footer>
+
+    <script>
+    (function(){
+        'use strict';
+        const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+        const DPR=window.devicePixelRatio||1;
+
+        function initCanvas(c){
+            const w=c.width, h=c.height;
+            c.width=w*DPR; c.height=h*DPR;
+            c.style.width=w+'px'; c.style.height=h+'px';
+            const ctx=c.getContext('2d');
+            ctx.scale(DPR,DPR);
+            return {ctx,w,h};
+        }
+
+        // ── NAV ──
+        const dBtns=$$('.nav-tabs__btn'), mBtns=$$('.nav-mob__btn'), secs=$$('.sec'), ind=$('#tabInd');
+        const drawn=new Set();
+
+        function updInd(){
+            const a=$('.nav-tabs__btn.active'); if(!a||!ind) return;
+            const li=a.closest('.nav-tabs__item');
+            ind.style.width=li.offsetWidth+'px'; ind.style.left=li.offsetLeft+'px';
+        }
+
+        function go(id){
+            dBtns.forEach(b=>b.classList.toggle('active',b.dataset.t===id));
+            mBtns.forEach(b=>b.classList.toggle('active',b.dataset.t===id));
+            secs.forEach(s=>s.classList.toggle('active',s.id===id));
+            updInd();
+            const am=mBtns.find(b=>b.dataset.t===id);
+            if(am) am.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+            if(!drawn.has(id)){ drawn.add(id); requestAnimationFrame(()=>animSec(id)); }
+        }
+
+        dBtns.forEach(b=>b.addEventListener('click',()=>go(b.dataset.t)));
+        mBtns.forEach(b=>b.addEventListener('click',()=>go(b.dataset.t)));
+        $$('.stab').forEach(btn=>{
+            btn.addEventListener('click',()=>{
+                $$('.stab').forEach(b=>b.classList.remove('active'));
+                $$('.sc').forEach(c=>c.classList.remove('active'));
+                btn.classList.add('active');
+                const t=$('#'+btn.dataset.sub); if(t) t.classList.add('active');
+            });
+        });
+
+        // ── ZODIAC WHEEL (animated) ──
+        function drawZodiac(){
+            const c=$('#zodiacWheel'); if(!c) return;
+            const {ctx,w,h}=initCanvas(c);
+            const cx=w/2, cy=h/2, outerR=Math.min(cx,cy)-15, innerR=outerR*0.62, midR=(outerR+innerR)/2;
+            const signs=[
+                {s:'♈',n:'Овен',c:'#EF4444'},{s:'♉',n:'Телець',c:'#10B981'},{s:'♊',n:'Близнюки',c:'#06B6D4'},{s:'♋',n:'Рак',c:'#3B82F6'},
+                {s:'♌',n:'Лев',c:'#EF4444'},{s:'♍',n:'Діва',c:'#10B981'},{s:'♎',n:'Терези',c:'#06B6D4'},{s:'♏',n:'Скорпіон',c:'#3B82F6'},
+                {s:'♐',n:'Стрілець',c:'#EF4444'},{s:'♑',n:'Козеріг',c:'#10B981'},{s:'♒',n:'Водолій',c:'#06B6D4'},{s:'♓',n:'Риби',c:'#3B82F6'}
+            ];
+            const planets=[
+                {sym:'☀',name:'Сонце',deg:344.25,col:'#FDE68A'},{sym:'☽',name:'Місяць',deg:102.31,col:'#93C5FD'},
+                {sym:'☿',name:'Меркурій',deg:318.21,col:'#67E8F9'},{sym:'♀',name:'Венера',deg:301.65,col:'#F9A8D4'},
+                {sym:'♂',name:'Марс',deg:198.22,col:'#FCA5A5'},{sym:'♃',name:'Юпітер',deg:220.21,col:'#C4B5FD'},
+                {sym:'♄',name:'Сатурн',deg:201.33,col:'#FBBF24'},{sym:'♅',name:'Уран',deg:244.62,col:'#5EEAD4'},
+                {sym:'♆',name:'Нептун',deg:266.87,col:'#A5B4FC'},{sym:'♇',name:'Плутон',deg:206.59,col:'#FDA4AF'}
+            ];
+            const seg=(2*Math.PI)/12, off=-Math.PI/2, pR=innerR*0.72;
+            let progress=0;
+
+            function frame(){
+                progress=Math.min(progress+0.008,1);
+                ctx.clearRect(0,0,w,h);
+
+                // Segments
+                const currentSeg=progress*2*Math.PI;
+                signs.forEach((sign,i)=>{
+                    const a1=off+i*seg, a2=a1+seg;
+                    if(a1-off>currentSeg) return;
+                    const drawTo=Math.min(a2, off+currentSeg);
+                    ctx.beginPath();
+                    ctx.arc(cx,cy,outerR,a1,drawTo);
+                    ctx.arc(cx,cy,innerR,drawTo,a1,true);
+                    ctx.closePath();
+                    ctx.fillStyle=sign.c+'18'; ctx.fill();
+                    ctx.strokeStyle=sign.c+'40'; ctx.lineWidth=1; ctx.stroke();
+
+                    if(progress>=((i+0.5)/12)){
+                        const la=a1+seg/2;
+                        ctx.font='15px serif'; ctx.fillStyle=sign.c; ctx.textAlign='center'; ctx.textBaseline='middle';
+                        ctx.fillText(sign.s, cx+midR*Math.cos(la), cy+midR*Math.sin(la));
+                        // Sign name outside
+                        ctx.font='600 8px Inter,sans-serif'; ctx.fillStyle=sign.c+'90';
+                        ctx.fillText(sign.n, cx+(outerR+14)*Math.cos(la), cy+(outerR+14)*Math.sin(la));
+                    }
+                });
+
+                // Inner circle
+                ctx.beginPath(); ctx.arc(cx,cy,innerR-1,0,2*Math.PI);
+                ctx.fillStyle='#0F172A'; ctx.fill();
+
+                // Planets
+                const visiblePlanets=Math.floor(progress*planets.length);
+                for(let i=0;i<visiblePlanets;i++){
+                    const p=planets[i];
+                    const pProgress=Math.min(1,(progress-i/planets.length)*planets.length);
+                    const rad=off+(p.deg/360)*2*Math.PI;
+                    const px=cx+pR*pProgress*Math.cos(rad);
+                    const py=cy+pR*pProgress*Math.sin(rad);
+
+                    // Glow
+                    ctx.save();
+                    ctx.shadowColor=p.col; ctx.shadowBlur=12*pProgress;
+                    ctx.beginPath(); ctx.arc(px,py,6,0,2*Math.PI);
+                    ctx.fillStyle=p.col; ctx.globalAlpha=0.8*pProgress; ctx.fill();
+                    ctx.restore();
+
+                    // Dot
+                    ctx.beginPath(); ctx.arc(px,py,4,0,2*Math.PI);
+                    ctx.fillStyle=p.col; ctx.globalAlpha=pProgress; ctx.fill();
+                    ctx.globalAlpha=1;
+
+                    // Symbol
+                    if(pProgress>0.5){
+                        ctx.font='bold 9px Inter,sans-serif'; ctx.fillStyle=p.col;
+                        ctx.globalAlpha=Math.min(1,(pProgress-0.5)*2);
+                        ctx.textAlign='center'; ctx.textBaseline='middle';
+                        ctx.fillText(p.sym, px, py-14);
+                        ctx.globalAlpha=1;
+                    }
+                }
+
+                // Center
+                if(progress>0.3){
+                    const cAlpha=Math.min(1,(progress-0.3)/0.3);
+                    ctx.globalAlpha=cAlpha;
+                    ctx.font='600 11px Inter,sans-serif'; ctx.fillStyle='#64748B'; ctx.textAlign='center';
+                    ctx.fillText('НАТАЛЬНА', cx, cy-6); ctx.fillText('КАРТА', cx, cy+8);
+                    ctx.globalAlpha=1;
+                }
+
+                if(progress<1) requestAnimationFrame(frame);
+            }
+            frame();
+
+            // Tooltip
+            const tip=$('#zTip');
+            c.addEventListener('mousemove',e=>{
+                const r=c.getBoundingClientRect(), mx=e.clientX-r.left, my=e.clientY-r.top;
+                let found=null;
+                planets.forEach(p=>{
+                    const rad=off+(p.deg/360)*2*Math.PI;
+                    const px=cx+pR*Math.cos(rad), py=cy+pR*Math.sin(rad);
+                    if(Math.sqrt((mx-px)**2+(my-py)**2)<18) found=p;
+                });
+                if(found){
+                    tip.textContent=found.sym+' '+found.name+' — '+found.deg.toFixed(1)+'°';
+                    tip.style.left=(e.clientX-r.left+12)+'px'; tip.style.top=(e.clientY-r.top-30)+'px';
+                    tip.classList.add('vis'); c.style.cursor='pointer';
+                } else { tip.classList.remove('vis'); c.style.cursor='default'; }
+            });
+            c.addEventListener('mouseleave',()=>tip.classList.remove('vis'));
+        }
+
+        // ── RADAR CHART (FIXED — clears canvas each frame) ──
+        function drawRadar(canvasId, labels, values, lineCol, fillCol, maxVal=10){
+            const c=$('#'+canvasId); if(!c) return;
+            const {ctx,w,h}=initCanvas(c);
+            const cx=w/2, cy=h/2, R=Math.min(cx,cy)-50;
+            const n=labels.length, step=(2*Math.PI)/n, start=-Math.PI/2;
+            let progress=0;
+
+            function drawGrid(){
+                // Grid pentagons
+                for(let lvl=1;lvl<=5;lvl++){
+                    const r=(R/5)*lvl;
+                    ctx.beginPath();
+                    for(let i=0;i<=n;i++){
+                        const a=start+i*step, x=cx+r*Math.cos(a), y=cy+r*Math.sin(a);
+                        i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+                    }
+                    ctx.strokeStyle='rgba(100,116,139,0.2)'; ctx.lineWidth=1; ctx.stroke();
+                }
+                // Axis lines + labels
+                labels.forEach((label,i)=>{
+                    const a=start+i*step;
+                    ctx.beginPath(); ctx.moveTo(cx,cy);
+                    ctx.lineTo(cx+R*Math.cos(a), cy+R*Math.sin(a));
+                    ctx.strokeStyle='rgba(100,116,139,0.15)'; ctx.stroke();
+                    const lx=cx+(R+30)*Math.cos(a), ly=cy+(R+30)*Math.sin(a);
+                    ctx.font='600 12px Inter,sans-serif'; ctx.fillStyle='#94A3B8';
+                    ctx.textAlign='center'; ctx.textBaseline='middle';
+                    ctx.fillText(label, lx, ly);
+                });
+            }
+
+            function frame(){
+                progress=Math.min(progress+0.012,1);
+                ctx.clearRect(0,0,w,h);
+                drawGrid();
+
+                const curVals=values.map(v=>v*progress);
+
+                // Filled polygon
+                ctx.beginPath();
+                curVals.forEach((val,i)=>{
+                    const r=(val/maxVal)*R, a=start+i*step;
+                    const x=cx+r*Math.cos(a), y=cy+r*Math.sin(a);
+                    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+                });
+                ctx.closePath();
+                ctx.fillStyle=fillCol; ctx.fill();
+                ctx.strokeStyle=lineCol; ctx.lineWidth=2.5; ctx.stroke();
+
+                // Dots
+                curVals.forEach((val,i)=>{
+                    const r=(val/maxVal)*R, a=start+i*step;
+                    const x=cx+r*Math.cos(a), y=cy+r*Math.sin(a);
+                    ctx.beginPath(); ctx.arc(x,y,6,0,2*Math.PI);
+                    ctx.fillStyle=lineCol; ctx.fill();
+                    ctx.beginPath(); ctx.arc(x,y,3,0,2*Math.PI);
+                    ctx.fillStyle='#0F172A'; ctx.fill();
+                });
+
+                // Value labels (show when done)
+                if(progress>=1){
+                    values.forEach((val,i)=>{
+                        const r=(val/maxVal)*R+16, a=start+i*step;
+                        ctx.font='bold 13px Inter,sans-serif'; ctx.fillStyle=lineCol;
+                        ctx.textAlign='center'; ctx.textBaseline='middle';
+                        ctx.fillText(val, cx+r*Math.cos(a), cy+r*Math.sin(a));
+                    });
+                }
+
+                if(progress<1) requestAnimationFrame(frame);
+            }
+            frame();
+        }
+
+        // ── DONUT CHART ──
+        function drawDonut(){
+            const c=$('#elementDonut'); if(!c) return;
+            const {ctx,w,h}=initCanvas(c);
+            const cx=w/2, cy=h/2, outerR=Math.min(cx,cy)-40, innerR=outerR*0.6;
+            const data=[
+                {l:'💧 Вода',p:40,c:'#3B82F6'},{l:'💨 Повітря',p:30,c:'#06B6D4'},
+                {l:'🔥 Вогонь',p:15,c:'#EF4444'},{l:'🌍 Земля',p:15,c:'#10B981'}
+            ];
+            let progress=0;
+
+            function frame(){
+                progress=Math.min(progress+0.012,1);
+                ctx.clearRect(0,0,w,h);
+                let cur=-Math.PI/2;
+                const totalSweep=progress*2*Math.PI;
+                let drawn=0;
+
+                data.forEach(d=>{
+                    const fullSweep=(d.p/100)*2*Math.PI;
+                    const sweep=Math.min(fullSweep, Math.max(0,totalSweep-drawn));
+                    if(sweep<=0){ drawn+=fullSweep; return; }
+
+                    ctx.beginPath();
+                    ctx.arc(cx,cy,outerR,cur,cur+sweep);
+                    ctx.arc(cx,cy,innerR,cur+sweep,cur,true);
+                    ctx.closePath();
+                    ctx.fillStyle=d.c; ctx.fill();
+
+                    if(sweep>=fullSweep*0.5){
+                        const midA=cur+fullSweep/2;
+                        ctx.font='600 11px Inter,sans-serif'; ctx.fillStyle=d.c;
+                        ctx.textAlign='center'; ctx.textBaseline='middle';
+                        ctx.fillText(d.l+' '+d.p+'%', cx+(outerR+14)*Math.cos(midA), cy+(outerR+14)*Math.sin(midA));
+                    }
+
+                    cur+=sweep; drawn+=fullSweep;
+                });
+
+                // Center
+                ctx.beginPath(); ctx.arc(cx,cy,innerR-1,0,2*Math.PI);
+                ctx.fillStyle='#0F172A'; ctx.fill();
+                if(progress>0.5){
+                    ctx.globalAlpha=Math.min(1,(progress-0.5)*2);
+                    ctx.font='600 13px Inter,sans-serif'; ctx.fillStyle='#64748B'; ctx.textAlign='center';
+                    ctx.fillText('Стихії',cx,cy-6); ctx.fillText('Балансу',cx,cy+10);
+                    ctx.globalAlpha=1;
+                }
+
+                if(progress<1) requestAnimationFrame(frame);
+            }
+            frame();
+        }
+
+        // ── GAUGE ──
+        function drawGauge(){
+            const c=$('#finGauge'); if(!c) return;
+            const {ctx,w,h}=initCanvas(c);
+            const cx=w/2, cy=h-30, R=Math.min(w/2,h)-40, target=92;
+            let progress=0;
+
+            function frame(){
+                progress=Math.min(progress+0.01,1);
+                ctx.clearRect(0,0,w,h);
+                const val=Math.round(target*progress);
+
+                // BG arc
+                ctx.beginPath(); ctx.arc(cx,cy,R,Math.PI,0);
+                ctx.lineWidth=20; ctx.strokeStyle='rgba(51,65,85,0.3)'; ctx.lineCap='round'; ctx.stroke();
+
+                // Value arc
+                const endA=Math.PI+(val/100)*Math.PI;
+                const grad=ctx.createLinearGradient(cx-R,cy,cx+R,cy);
+                grad.addColorStop(0,'#3B82F6'); grad.addColorStop(0.5,'#8B5CF6'); grad.addColorStop(1,'#10B981');
+                ctx.beginPath(); ctx.arc(cx,cy,R,Math.PI,endA);
+                ctx.lineWidth=20; ctx.strokeStyle=grad; ctx.lineCap='round'; ctx.stroke();
+
+                ctx.font='bold 36px Inter,sans-serif'; ctx.fillStyle='#F8FAFC';
+                ctx.textAlign='center'; ctx.textBaseline='middle';
+                ctx.fillText(val+'%',cx,cy-30);
+                ctx.font='500 12px Inter,sans-serif'; ctx.fillStyle='#64748B';
+                ctx.fillText('Фінансова Ємність',cx,cy-5);
+                ctx.font='600 10px Inter,sans-serif'; ctx.fillStyle='#475569';
+                ctx.textAlign='left'; ctx.fillText('0',cx-R-5,cy+15);
+                ctx.textAlign='right'; ctx.fillText('100',cx+R+5,cy+15);
+
+                if(progress<1) requestAnimationFrame(frame);
+            }
+            frame();
+        }
+
+        // ── WHEEL OF LIFE ──
+        function drawWheel(){
+            const c=$('#wheelOfLife'); if(!c) return;
+            const {ctx,w,h}=initCanvas(c);
+            const cx=w/2, cy=h/2, R=Math.min(cx,cy)-45;
+            const segs=[
+                {l:'Кар\'єра',v:8,c:'#FBBF24'},{l:'Фінанси',v:7,c:'#10B981'},
+                {l:'Кохання',v:6,c:'#EC4899'},{l:'Сім\'я',v:7,c:'#3B82F6'},
+                {l:'Здоров\'я',v:6,c:'#EF4444'},{l:'Духовність',v:8,c:'#8B5CF6'},
+                {l:'Творчість',v:7,c:'#06B6D4'},{l:'Соціум',v:6,c:'#F97316'}
+            ];
+            const n=segs.length, step=(2*Math.PI)/n, start=-Math.PI/2;
+            let progress=0;
+
+            function frame(){
+                progress=Math.min(progress+0.012,1);
+                ctx.clearRect(0,0,w,h);
+
+                // Concentric rings
+                for(let ring=1;ring<=10;ring++){
+                    const r=(R/10)*ring;
+                    ctx.beginPath(); ctx.arc(cx,cy,r,0,2*Math.PI);
+                    ctx.strokeStyle=ring===5?'rgba(100,116,139,0.3)':'rgba(100,116,139,0.1)';
+                    ctx.lineWidth=ring===5?1.5:0.5; ctx.stroke();
+                }
+                // Segment lines
+                segs.forEach((_,i)=>{
+                    const a=start+i*step;
+                    ctx.beginPath(); ctx.moveTo(cx,cy);
+                    ctx.lineTo(cx+R*Math.cos(a),cy+R*Math.sin(a));
+                    ctx.strokeStyle='rgba(100,116,139,0.15)'; ctx.lineWidth=1; ctx.stroke();
+                });
+
+                // Filled segments
+                segs.forEach((seg,i)=>{
+                    const a1=start+i*step, a2=a1+step;
+                    const r=(seg.v/10)*R*progress;
+                    ctx.beginPath(); ctx.moveTo(cx,cy);
+                    ctx.arc(cx,cy,r,a1,a2); ctx.closePath();
+                    ctx.fillStyle=seg.c+'30'; ctx.fill();
+                    ctx.strokeStyle=seg.c+'80'; ctx.lineWidth=1.5; ctx.stroke();
+
+                    // Label
+                    const midA=a1+step/2;
+                    ctx.font='600 10px Inter,sans-serif'; ctx.fillStyle=seg.c;
+                    ctx.textAlign='center'; ctx.textBaseline='middle';
+                    ctx.fillText(seg.l, cx+(R+30)*Math.cos(midA), cy+(R+30)*Math.sin(midA));
+
+                    if(progress>=0.8){
+                        const vr=(seg.v/10)*R-12;
+                        ctx.font='bold 12px Inter,sans-serif';
+                        ctx.fillText(seg.v, cx+vr*Math.cos(midA), cy+vr*Math.sin(midA));
+                    }
+                });
+
+                if(progress<1) requestAnimationFrame(frame);
+            }
+            frame();
+        }
+
+        // ── SHADOW ANIMATION ──
+        function drawShadow(){
+            const c=$('#shadowPulse'); if(!c) return;
+            const cont=$('#shadowContainer');
+            if(cont){ cont.style.opacity='1'; cont.style.maxHeight='350px'; cont.style.marginBottom='1.5rem'; }
+            const {ctx,w,h}=initCanvas(c);
+            const cx=w/2, cy=h/2, maxR=Math.min(cx,cy)-40;
+            const bgColor = getComputedStyle(document.body).getPropertyValue('--bg').trim() || '#0F172A';
+            let progress=0;
+            let time=0;
+
+            function frame(){
+                progress=Math.min(progress+0.0025,1); // ~6.5 seconds at 60fps for a much slower, dramatic effect
+                time+=0.015;
+                ctx.clearRect(0,0,w,h);
+
+                // Fade out at the end
+                if(progress > 0.8){
+                    ctx.globalAlpha = Math.max(0, (1 - progress) / 0.2);
+                } else {
+                    ctx.globalAlpha = 1;
+                }
+
+                // Base Moon Glow
+                const glow = ctx.createRadialGradient(cx, cy, maxR*0.5, cx, cy, maxR);
+                glow.addColorStop(0, 'rgba(139,92,246,0.3)');
+                glow.addColorStop(1, 'rgba(139,92,246,0)');
+                ctx.beginPath(); ctx.arc(cx, cy, maxR, 0, 2*Math.PI);
+                ctx.fillStyle = glow; ctx.fill();
+
+                // Bright Moon
+                ctx.beginPath(); ctx.arc(cx, cy, maxR*0.5, 0, 2*Math.PI);
+                ctx.fillStyle = '#E2E8F0'; ctx.fill();
+
+                // Dark Moon (Lilith) passing over (eclipse effect)
+                // Starts from right side and moves to center
+                const offset = maxR * (1 - Math.min(progress/0.7, 1)); 
+                ctx.beginPath(); ctx.arc(cx + offset, cy, maxR*0.5, 0, 2*Math.PI);
+                ctx.fillStyle = bgColor;
+                ctx.fill();
+
+                // Core dark shadow aura during eclipse
+                if(progress > 0.3) {
+                    const eclipseAura = (progress - 0.3) / 0.7;
+                    const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, maxR*0.6);
+                    grad.addColorStop(0, `rgba(15,23,42,${eclipseAura})`);
+                    grad.addColorStop(1, 'rgba(30,41,59,0)');
+                    ctx.beginPath(); ctx.arc(cx, cy, maxR*0.6, 0, 2*Math.PI);
+                    ctx.fillStyle = grad; ctx.fill();
+                }
+
+                // Small wandering particles (Lilith/Chiron vibes)
+                if(progress > 0.4 && progress < 0.9){
+                    const pAlpha = Math.sin((progress-0.4)/0.5 * Math.PI);
+                    ctx.globalAlpha = pAlpha * (progress>0.8 ? (1-progress)/0.2 : 1);
+                    for(let i=0; i<5; i++){
+                        const px = cx + Math.cos(time*1.5 + i*Math.PI/2.5) * maxR * 0.6;
+                        const py = cy + Math.sin(time*2 + i*Math.PI/2.5) * maxR * 0.6;
+                        ctx.beginPath(); ctx.arc(px, py, 2, 0, 2*Math.PI);
+                        ctx.fillStyle = i%2===0 ? '#EC4899' : '#3B82F6';
+                        ctx.fill();
+                    }
+                }
+
+                ctx.globalAlpha = 1;
+
+                if(progress < 1) {
+                    requestAnimationFrame(frame);
+                } else {
+                    if(cont){
+                        cont.style.opacity = '0';
+                        cont.style.maxHeight = '0px';
+                        cont.style.marginBottom = '0px';
+                    }
+                }
+            }
+            frame();
+        }
+
+        // ── SECTION ANIMATOR ──
+        function animSec(id){
+            switch(id){
+                case 'raw-data': drawZodiac(); break;
+                case 'summary': drawRadar('summaryRadar',['Інтуїція','Логіка','Емпатія','Амбіції','Свобода','Дисципліна','Креативність'],[9,8,9,7,8,8,9],'#3B82F6','rgba(59,130,246,0.15)'); break;
+                case 'core': drawDonut(); break;
+                case 'love': drawRadar('loveRadar',['Пристрасть','Стабільність','Свобода','Глибина','Комунікація','Довіра'],[8,6,9,9,7,8],'#EC4899','rgba(236,72,153,0.12)'); break;
+                case 'career': setTimeout(()=>$$('#careerBars .bar-fill').forEach(b=>b.style.width=b.dataset.target+'%'),100); break;
+                case 'wealth': drawGauge(); break;
+                case 'karma': setTimeout(()=>{
+                    const p=$('#karmaProg'),d=$('#karmaDot'),l=$('#karmaLbl');
+                    if(p)p.style.width='42%'; if(d)d.style.left='42%'; if(l)l.style.left='42%';
+                },100); break;
+                case 'shadow': drawShadow(); break;
+                case 'energy': drawWheel(); break;
+                case 'future': $$('#futureTimeline .tl-item').forEach((it,i)=>setTimeout(()=>it.classList.add('vis'),200+i*300)); break;
+            }
+        }
+
+        // ── INIT ──
+        window.addEventListener('DOMContentLoaded',()=>{
+            updInd();
+            window.addEventListener('resize',updInd);
+            // Animate first section on load
+            drawn.add('raw-data');
+            drawZodiac();
+        });
+
+    })();
+    </script>
+</body>
+</html>
