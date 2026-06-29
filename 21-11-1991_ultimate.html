@@ -51,7 +51,7 @@
         }
 
         /* Layout */
-        .container { display: flex; max-width: 1400px; margin: 0 auto; padding: 2rem 1rem; gap: 3rem; }
+        .container { display: flex; justify-content: center; max-width: 1400px; margin: 0 auto; padding: 2rem 1rem; gap: 3rem; }
         
         /* Navigation (Floating Sidebar) */
         .sidebar {
@@ -127,8 +127,8 @@
         .protocol { margin-top: 1.5rem; background: rgba(0,0,0,0.3); border-radius: 12px; padding: 1.5rem; border: 1px solid rgba(255,255,255,0.05); }
         .protocol-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-gold); margin-bottom: 1rem; display: block; font-weight: 600; }
         .protocol ul { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
-        .protocol li { display: flex; gap: 1rem; align-items: flex-start; }
-        .protocol li::before { content: '→'; color: var(--accent-purple); font-weight: bold; margin-top: 2px; }
+        .protocol li { position: relative; padding-left: 1.5rem; }
+        .protocol li::before { content: '→'; position: absolute; left: 0; top: 0; color: var(--accent-purple); font-weight: bold; }
         
         /* Lifehack Block */
         .lifehack {
@@ -144,7 +144,7 @@
         .mobile-nav { display: none; }
 
         @media (max-width: 992px) {
-            .container { flex-direction: column; padding: 1rem; gap: 2rem; padding-bottom: 6rem; }
+            .container { flex-direction: column; padding: 1rem; gap: 2rem; padding-bottom: 8rem; }
             .sidebar { display: none; }
             .content { max-width: 100%; }
             .mobile-nav {
