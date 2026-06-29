@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ULTIMATE VEDIC MASTER GUIDE | Destiny Code</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #05050A;
+            --bg-card: rgba(20, 20, 30, 0.6);
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #F3F4F6;
+            --text-muted: #9CA3AF;
+            --accent-gold: #D4AF37;
+            --accent-purple: #8B5CF6;
+            --accent-emerald: #10B981;
+            --accent-blue: #3B82F6;
+            --accent-red: #EF4444;
+            --gradient-primary: linear-gradient(135deg, #8B5CF6 0%, #D4AF37 100%);
+            --glass-blur: blur(16px);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Ambient Background */
+        .ambient-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1; overflow: hidden; pointer-events: none;
+        }
+        .orb {
+            position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.3;
+            animation: float 20s infinite ease-in-out alternate;
+        }
+        .orb-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: var(--accent-purple); animation-delay: 0s; }
+        .orb-2 { bottom: -20%; right: -10%; width: 60vw; height: 60vw; background: rgba(212, 175, 55, 0.4); animation-delay: -5s; }
+        .orb-3 { top: 40%; left: 60%; width: 40vw; height: 40vw; background: rgba(16, 185, 129, 0.2); animation-delay: -10s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 50px) scale(1.1); }
+        }
+
+        /* Layout */
+        .container { display: flex; max-width: 1400px; margin: 0 auto; padding: 2rem 1rem; gap: 3rem; }
+        
+        /* Navigation (Floating Sidebar) */
+        .sidebar {
+            flex: 0 0 250px; position: sticky; top: 2rem; height: calc(100vh - 4rem);
+            background: rgba(10, 10, 15, 0.5); backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border); border-radius: 20px; padding: 1.5rem;
+            display: flex; flex-direction: column; gap: 1rem;
+        }
+        .sidebar-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 1rem; }
+        .nav-link {
+            color: var(--text-muted); text-decoration: none; font-size: 0.95rem;
+            padding: 0.75rem 1rem; border-radius: 12px; transition: all 0.3s ease;
+            display: flex; align-items: center; gap: 0.75rem; border: 1px solid transparent;
+        }
+        .nav-link:hover { color: var(--text-main); background: rgba(255,255,255,0.05); }
+        .nav-link.active {
+            color: var(--text-main); background: rgba(139, 92, 246, 0.15);
+            border-color: rgba(139, 92, 246, 0.3); font-weight: 600;
+        }
+        .nav-icon { font-size: 1.2rem; }
+
+        /* Main Content */
+        .content { flex: 1; max-width: 900px; }
+        
+        /* Header */
+        .hero { text-align: center; margin-bottom: 4rem; padding-top: 2rem; }
+        .badge {
+            display: inline-block; padding: 0.4rem 1.2rem; border-radius: 100px;
+            background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.3);
+            color: var(--accent-gold); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1.5rem;
+        }
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; line-height: 1.1; margin-bottom: 1rem; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 1.1rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+        
+        .person-data {
+            display: flex; justify-content: center; gap: 2rem; margin-top: 2rem;
+            padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 16px; border: 1px solid var(--border); flex-wrap: wrap;
+        }
+        .data-item { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; }
+        .data-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .data-value { font-size: 1rem; font-weight: 600; color: var(--text-main); }
+
+        /* Sections */
+        section { margin-bottom: 5rem; scroll-margin-top: 2rem; opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        section.visible { opacity: 1; transform: translateY(0); }
+        .section-header { margin-bottom: 2.5rem; display: flex; align-items: center; gap: 1rem; }
+        .section-icon { width: 50px; height: 50px; border-radius: 14px; background: rgba(139, 92, 246, 0.1); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; border: 1px solid rgba(139, 92, 246, 0.3); }
+        h2 { font-size: 2rem; font-weight: 700; color: var(--text-main); }
+        
+        /* Cards */
+        .grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        .card {
+            background: var(--bg-card); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border); border-radius: 20px; padding: 2rem;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            position: relative; overflow: hidden;
+        }
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--gradient-primary); opacity: 0.5; transition: opacity 0.3s;
+        }
+        .card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .card:hover::before { opacity: 1; }
+        
+        .card-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+        .card-emoji { font-size: 2rem; background: rgba(255,255,255,0.05); width: 60px; height: 60px; border-radius: 16px; display: flex; align-items: center; justify-content: center; }
+        h3 { font-size: 1.4rem; font-weight: 600; color: #fff; }
+        
+        .card p { color: var(--text-muted); margin-bottom: 1rem; font-size: 0.95rem; }
+        .card strong { color: var(--text-main); font-weight: 600; }
+        
+        /* Protocol Lists */
+        .protocol { margin-top: 1.5rem; background: rgba(0,0,0,0.3); border-radius: 12px; padding: 1.5rem; border: 1px solid rgba(255,255,255,0.05); }
+        .protocol-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-gold); margin-bottom: 1rem; display: block; font-weight: 600; }
+        .protocol ul { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+        .protocol li { display: flex; gap: 1rem; align-items: flex-start; }
+        .protocol li::before { content: '→'; color: var(--accent-purple); font-weight: bold; margin-top: 2px; }
+        
+        /* Lifehack Block */
+        .lifehack {
+            margin-top: 1.5rem; padding: 1.2rem; border-radius: 12px;
+            background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);
+            display: flex; gap: 1rem; align-items: flex-start;
+        }
+        .lifehack-icon { font-size: 1.5rem; }
+        .lifehack-content h4 { color: var(--accent-emerald); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.3rem; }
+        .lifehack-content p { color: var(--text-main); margin-bottom: 0; font-size: 0.95rem; }
+
+        /* Mobile Nav */
+        .mobile-nav { display: none; }
+
+        @media (max-width: 992px) {
+            .container { flex-direction: column; padding: 1rem; gap: 2rem; padding-bottom: 6rem; }
+            .sidebar { display: none; }
+            .content { max-width: 100%; }
+            .mobile-nav {
+                display: flex; position: fixed; bottom: 1rem; left: 1rem; right: 1rem;
+                background: rgba(10, 10, 15, 0.8); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+                border: 1px solid var(--border); border-radius: 100px; padding: 0.5rem;
+                z-index: 100; justify-content: space-between; overflow-x: auto; scrollbar-width: none;
+            }
+            .mobile-nav::-webkit-scrollbar { display: none; }
+            .mob-nav-btn {
+                padding: 0.8rem 1.2rem; border-radius: 100px; color: var(--text-muted);
+                text-decoration: none; font-size: 0.9rem; font-weight: 500; white-space: nowrap; transition: 0.3s;
+            }
+            .mob-nav-btn.active { background: rgba(255,255,255,0.1); color: #fff; }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-title">Навігація</div>
+            <a href="#intro" class="nav-link active"><span class="nav-icon">🎯</span> Вступ</a>
+            <a href="#fundament" class="nav-link"><span class="nav-icon">🏗️</span> Фундамент</a>
+            <a href="#paradox" class="nav-link"><span class="nav-icon">🧩</span> Парадокси</a>
+            <a href="#energy" class="nav-link"><span class="nav-icon">🧘‍♀️</span> Тіло та Енергія</a>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <section id="intro" class="visible">
+                <div class="hero">
+                    <div class="badge">Vedic Master Guide</div>
+                    <h1>ULTIMATE GUIDE</h1>
+                    <p>Персональна інструкція зі злому власної астрологічної матриці</p>
+                    
+                    <div class="person-data">
+                        <div class="data-item">
+                            <span class="data-label">Дата</span>
+                            <span class="data-value">21.11.1991</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">Час</span>
+                            <span class="data-value">14:30</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">Місце</span>
+                            <span class="data-value">Луганськ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-emoji">⚡</div>
+                        <h3>Хто ти на рівні енергії?</h3>
+                    </div>
+                    <p>Твоя карта — це мікс неймовірної швидкості (Асцендент в Овні) та глибокої, кризової містики (Скорпіон у 8-му домі). Ти людина, яка не може жити в повільному, стабільному "болоті".</p>
+                    <p>Твоя суперсила — це здатність швидко генерувати ідеї, миттєво зчитувати суть людей і трансформувати хаос у порядок. Проте твій головний виклик — навчитися керувати цією вогняною енергією так, щоб вона приносила тобі статус та гроші (Сатурн), а не спалювала тебе зсередини через перфекціонізм (Венера в Діві) та дрібні справи.</p>
+                </div>
+            </section>
+
+            <section id="fundament">
+                <div class="section-header">
+                    <div class="section-icon">🏗️</div>
+                    <h2>Частина 1: Фундамент</h2>
+                </div>
+                
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-emoji">💰</div>
+                            <h3>Фінанси: Від "служниці" до "кризового менеджера"</h3>
+                        </div>
+                        <p>Управитель твоїх грошей (Венера) ослаблена в знаку Діви. Це дає комплекс "самозванця": тобі здається, що ти повинна відпрацювати ідеально, без помилок, щоб мати право взяти гроші. Ти схильна допомагати безкоштовно.</p>
+                        
+                        <div class="protocol">
+                            <span class="protocol-title">Протокол розблокування грошей</span>
+                            <ul>
+                                <li><strong>Монетизація безкоштовного:</strong> Почни брати гроші за те, що ти зараз робиш для друзів чи колег "по доброті душевній" (поради, наведення порядку).</li>
+                                <li><strong>Продаж системи:</strong> Твоя Діва бачить деталі. Продавай послугу "систематизації хаосу" (аудит процесів, логістика, клінінг).</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="lifehack">
+                            <div class="lifehack-icon">✋</div>
+                            <div class="lifehack-content">
+                                <h4>Магія дотику (Накшатра Хаста)</h4>
+                                <p>Зірка твоїх грошей символізує "кулак". Твої гроші фізично пов'язані з дрібною моторикою. Май хобі, де ти працюєш руками (малювання, ліплення, масаж) — це фізично притягує фінанси. Крім того, обов'язково витрачай 5-10% доходу на непрактичну естетику для себе.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-emoji">❤️</div>
+                            <h3>Стосунки: Як не вбити любов перфекціонізмом</h3>
+                        </div>
+                        <p>Ти шукаєш ідеального партнерства, але твоя аналітична Діва постійно сканує партнера на недоліки, а Скорпіон вимагає пристрасті і драми.</p>
+                        
+                        <div class="protocol">
+                            <span class="protocol-title">Протокол стосунків</span>
+                            <ul>
+                                <li><strong>Зупиняй критику:</strong> За секунду до того, як зробити зауваження, запитай себе: "Це критично для виживання?". Якщо ні — промовчи.</li>
+                                <li><strong>Екологічна драма:</strong> Тобі потрібні сильні емоції, інакше ти створиш скандал від нудьги. Сублімуйте разом: робіть ремонти, займайтеся екстримом, долайте зовнішні перешкоди разом.</li>
+                                <li><strong>Прозорий бюджет:</strong> Ваші фінанси мають бути абсолютно прозорими. Спільний інвестиційний рахунок зніме напругу у сфері влади в парі.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-emoji">🌪️</div>
+                            <h3>Зона комфорту: Еволюція звички (Кету в Близнюках)</h3>
+                        </div>
+                        <p>Твій минулий кармічний досвід тягне тебе у стрічку соцмереж, плітки та мільйон дрібних справ. Це твоя форма втечі від стресу. Ти не зможеш просто "покинути" цю звичку, її треба еволюціонувати.</p>
+                        
+                        <div class="protocol">
+                            <span class="protocol-title">Протокол зміни зони комфорту</span>
+                            <ul>
+                                <li><strong>Зміни дієту:</strong> Замість дешевого дофаміну (Reels, плітки), підсунь мозку дорогий (Стрілець): подкасти про бізнес-стратегії, філософію. Обговорюй ідеї, а не людей.</li>
+                                <li><strong>Мікро-кроки для макро-мети:</strong> Розбий великий проект на 100 дрібних кроків. Твій мозок обожнює ставити галочки — нехай він робить це з користю.</li>
+                                <li><strong>Стань транслятором:</strong> Дізналася щось нове — одразу переказуй іншим, пиши пости. Перетвори звичку "споживати" на звичку "навчати".</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="paradox">
+                <div class="section-header">
+                    <div class="section-icon">🧩</div>
+                    <h2>Частина 2: Злом Системи</h2>
+                </div>
+                
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-emoji">⚖️</div>
+                            <h3>Парадокс Кар'єри: Стартапер vs Система</h3>
+                        </div>
+                        <p>Твій Асцендент (Ашвіні) обожнює швидкість і швидкі старти. Але кар'єра контролюється Сатурном, який карає відсутністю грошей, якщо ти скачеш між професіями кожні 3 місяці.</p>
+                        
+                        <div class="lifehack">
+                            <div class="lifehack-icon">🎯</div>
+                            <div class="lifehack-content">
+                                <h4>Золотий Перетин (Рішення)</h4>
+                                <p>Не змінюй глобальну нішу (це твій Сатурн-фундамент). Але всередині будь "кризовим запускатором". Бери нового клієнта, влітай на шаленій швидкості, вирішуй кризу за 2 тижні, вибудовуй процеси і <strong>одразу делегуй рутину підлеглим</strong>. Йди шукати новий виклик. Ти маєш стати "сірим кардиналом".</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-emoji">🎓</div>
+                            <h3>Синдром "Самозванця в Освіті"</h3>
+                        </div>
+                        <p>Твій кармічний вузол знаходиться в зірці "Непереможних" у домі Вищої Освіти. Ти можеш постійно відчувати, що в тебе "недостатньо дипломів", і авторитет не підкріплений папірцем.</p>
+                        <p><strong>Рішення:</strong> Твій життєвий досвід вартує більше. Перестань колекціонувати сертифікати і почни створювати <strong>власну методологію</strong>. Люди підуть за твоєю абсолютною впевненістю, а не за "корочкою".</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-emoji">👁️</div>
+                            <h3>Вбудований "Рентген" (Йога Профайлера)</h3>
+                        </div>
+                        <p>У тебе в 8-му домі (чужі таємниці) з'єдналися Сонце та Меркурій. У тебе працює безжалісний детектор брехні. Ти бачиш гнилизну і приховані мотиви людей за секунду.</p>
+                        <p><strong>Рішення:</strong> Ніколи не ігноруй свою першу, найбільш "параноїдальну" думку про людину чи контракт. Вона завжди правильна. Довіряй своєму рентгену завжди.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="energy">
+                <div class="section-header">
+                    <div class="section-icon">🧘‍♀️</div>
+                    <h2>Частина 3: Тіло та Енергія</h2>
+                </div>
+                
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-emoji">🌊</div>
+                            <h3>"Водяне Охолодження" (Атмакарака)</h3>
+                        </div>
+                        <p>Твій Місяць (Планета Душі) стоїть в Овні. Твоя психіка перегрівається миттєво, ти можеш емоційно вибухнути за секунду.</p>
+                        <div class="lifehack">
+                            <div class="lifehack-icon">💧</div>
+                            <div class="lifehack-content">
+                                <h4>Лайфхак</h4>
+                                <p>Твій єдиний закон перезавантаження — <strong>Вода</strong>. Відчуваєш, що закипаєш? Вмий обличчя крижаною водою або йди в душ. Це фізично гасить твій кармічний вогонь краще за медитації.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-emoji">🏎️</div>
+                            <h3>Легалізація Адреналіну (8 дім)</h3>
+                        </div>
+                        <p>Твій Марс дуже сильний, але стоїть у домі криз і аварій. Якщо ти намагаєшся жити "правильно і повільно", ти зруйнуєш себе зсередини.</p>
+                        <div class="lifehack">
+                            <div class="lifehack-icon">🏁</div>
+                            <div class="lifehack-content">
+                                <h4>Лайфхак</h4>
+                                <p>Тобі <strong>можна і треба</strong> їздити швидко, але підконтрольно! Іди на картинг, на курси екстремального водіння. Тілу потрібен легальний екстрим, щоб уникнути реальних аварій.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-emoji">🤫</div>
+                            <h3>Сліпа Зона Ізоляції (12 дім)</h3>
+                        </div>
+                        <p>З мозком, який ніколи не вимикається, ти можеш страждати на безсоння і втому навіть після компанії друзів.</p>
+                        <div class="lifehack">
+                            <div class="lifehack-icon">🎧</div>
+                            <div class="lifehack-content">
+                                <h4>Лайфхак</h4>
+                                <p>Раз на місяць потрібен "День Аутиста" — доба повної ізоляції, тиші, без телефону, бажано біля води. Перед сном ніяких соцмереж, тільки ембієнт-музика і гаряча ванна.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-emoji">🔪</div>
+                            <h3>Терапія "Відсікання" (Накшатра Кріттіка)</h3>
+                        </div>
+                        <p>Твоя психіка найкраще заспокоюється не тоді, коли ти лежиш на дивані, а коли ти щось викидаєш.</p>
+                        <div class="lifehack">
+                            <div class="lifehack-icon">🗑️</div>
+                            <div class="lifehack-content">
+                                <h4>Лайфхак</h4>
+                                <p>У стані стресу йди і безжалісно викидай старі речі, чисти контакти, видаляй файли. Разом з цим сміттям згорає твій стрес. І не стримуй сльози — поплакала 10 хвилин, обнулилася і пішла перемагати.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav">
+        <a href="#intro" class="mob-nav-btn active">Вступ</a>
+        <a href="#fundament" class="mob-nav-btn">Фундамент</a>
+        <a href="#paradox" class="mob-nav-btn">Парадокси</a>
+        <a href="#energy" class="mob-nav-btn">Енергія</a>
+    </nav>
+
+    <script>
+        // Intersection Observer for highlighting nav and fading in sections
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mobNavLinks = document.querySelectorAll('.mob-nav-btn');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '-20% 0px -70% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    const id = entry.target.getAttribute('id');
+                    
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${id}`) link.classList.add('active');
+                    });
+                    
+                    mobNavLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${id}`) link.classList.add('active');
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

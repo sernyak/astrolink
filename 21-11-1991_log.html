@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Хронологічний Журнал | Destiny Code</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #05050A;
+            --bg-card: rgba(20, 20, 30, 0.6);
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #F3F4F6;
+            --text-muted: #9CA3AF;
+            --accent-purple: #8B5CF6;
+            --accent-gold: #D4AF37;
+            --gradient-primary: linear-gradient(135deg, #8B5CF6 0%, #D4AF37 100%);
+            --glass-blur: blur(16px);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Ambient Background */
+        .ambient-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1; overflow: hidden; pointer-events: none;
+        }
+        .orb {
+            position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.2;
+        }
+        .orb-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: var(--accent-purple); }
+        .orb-2 { bottom: -20%; right: -10%; width: 60vw; height: 60vw; background: var(--accent-gold); }
+
+        /* Header */
+        header {
+            text-align: center; padding: 3rem 1rem 2rem; position: relative;
+        }
+        .badge {
+            display: inline-block; padding: 0.4rem 1.2rem; border-radius: 100px;
+            background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--accent-purple); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem;
+        }
+        h1 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { color: var(--text-muted); margin-top: 0.5rem; font-size: 0.95rem; }
+
+        /* Tabs Container */
+        .tabs-wrapper {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(5, 5, 10, 0.8); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+        }
+        .tabs {
+            display: flex; max-width: 900px; margin: 0 auto; gap: 0.5rem;
+            overflow-x: auto; padding: 0 1rem; scrollbar-width: none;
+        }
+        .tabs::-webkit-scrollbar { display: none; }
+        
+        .tab-btn {
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+            color: var(--text-muted); padding: 0.8rem 1.2rem; border-radius: 12px;
+            font-size: 0.9rem; font-weight: 500; cursor: pointer; white-space: nowrap;
+            transition: all 0.3s; flex-shrink: 0;
+        }
+        .tab-btn:hover { background: rgba(255,255,255,0.08); color: var(--text-main); }
+        .tab-btn.active {
+            background: rgba(139, 92, 246, 0.15); color: var(--text-main);
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        /* Content Area */
+        .content-container {
+            max-width: 900px; margin: 2rem auto; padding: 0 1rem;
+        }
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .tab-content.active { display: block; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Typography & Blocks */
+        h2 { font-size: 1.8rem; margin: 2rem 0 1.5rem; color: #fff; }
+        h3 { font-size: 1.3rem; margin: 1.5rem 0 1rem; color: var(--accent-gold); }
+        p { margin-bottom: 1rem; color: var(--text-muted); font-size: 1.05rem; }
+        strong { color: var(--text-main); font-weight: 600; }
+        
+        .alert {
+            padding: 1.2rem; border-radius: 12px; margin: 1.5rem 0;
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-left: 4px solid var(--accent-purple);
+        }
+        .alert.tip { border-left-color: var(--accent-emerald); background: rgba(16, 185, 129, 0.05); }
+        .alert.warning { border-left-color: var(--accent-red); background: rgba(239, 68, 68, 0.05); }
+        
+        .alert p { margin: 0; color: var(--text-main); }
+        
+        ul { list-style: none; margin: 1rem 0 1.5rem; }
+        ul li { margin-bottom: 0.8rem; padding-left: 1.5rem; position: relative; color: var(--text-muted); }
+        ul li::before { content: '•'; position: absolute; left: 0; color: var(--accent-purple); font-size: 1.5rem; line-height: 1; top: -2px; }
+
+        table {
+            width: 100%; border-collapse: collapse; margin: 1.5rem 0;
+            background: var(--bg-card); border-radius: 12px; overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: rgba(255,255,255,0.05); color: var(--text-main); font-weight: 600; }
+        td { color: var(--text-muted); }
+        tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .tabs { padding: 0 0.5rem; }
+            .tab-btn { padding: 0.6rem 1rem; font-size: 0.85rem; }
+            table { display: block; overflow-x: auto; white-space: nowrap; }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <header>
+        <div class="badge">Chronological Archive</div>
+        <h1>Журнал Розборів</h1>
+        <div class="subtitle">21.11.1991, 14:30, Луганськ</div>
+    </header>
+
+    <div class="tabs-wrapper">
+        <div class="tabs">
+            <button class="tab-btn active" data-target="part1">1. Західний Звіт</button>
+            <button class="tab-btn" data-target="part2">2. Ведичний Розбір</button>
+            <button class="tab-btn" data-target="part3">3. Накшатри</button>
+            <button class="tab-btn" data-target="part4">4. Прихована Матриця</button>
+            <button class="tab-btn" data-target="part5">5. Фінальні Парадокси</button>
+        </div>
+    </div>
+
+    <main class="content-container">
+        <!-- Part 1 -->
+        <div id="part1" class="tab-content active">
+            <h2>🔮 Повна Розшифровка Натальної Карти</h2>
+            <p><strong>Дата народження:</strong> 21.11.1991</p>
+            <p><strong>Час народження:</strong> 14:30</p>
+            <p><strong>Система домів:</strong> Placidus (Tropical)</p>
+
+            <h3>Координати планет</h3>
+            <table>
+                <tr><th>Планета</th><th>Знак</th><th>Дім</th><th>Статус</th></tr>
+                <tr><td>Сонце ☀️</td><td>Скорпіон ♏</td><td>VII</td><td>—</td></tr>
+                <tr><td>Місяць 🌙</td><td>Телець ♉</td><td>I</td><td>Екзальтація 🌟</td></tr>
+                <tr><td>Меркурій ☿</td><td>Стрілець ♐</td><td>VIII</td><td>Вигнання 📉</td></tr>
+                <tr><td>Венера ♀</td><td>Терези ♎</td><td>VI</td><td>Оселя 🌟</td></tr>
+                <tr><td>Марс ♂</td><td>Скорпіон ♏</td><td>VII</td><td>Оселя 🌟</td></tr>
+                <tr><td>Юпітер ♃</td><td>Діва ♍</td><td>VI</td><td>Вигнання 📉</td></tr>
+                <tr><td>Сатурн ♄</td><td>Водолій ♒</td><td>X</td><td>Оселя 🌟</td></tr>
+            </table>
+
+            <h3>🌟 Космічне Резюме</h3>
+            <p>Ти — "Містичний Трансформатор" з неймовірно глибокою енергетикою. Твоя головна сила полягає у здатності бачити істину, приховану від інших, та перетворювати будь-яку кризу на власну перевагу (завдяки потужному стеліуму у Скорпіоні).</p>
+
+            <h3>✨ Ядро Особистості</h3>
+            <p>Твоє <strong>Сонце у Скорпіоні</strong> утворює ядро особистості — глибокої, проникливої, здатної відроджуватися з попелу. Але твій <strong>Асцендент у Тельці</strong> створює зовнішню маску спокою та стабільності.</p>
+            
+            <div class="alert tip">
+                <p><strong>Практична порада:</strong> Твій Місяць у Тельці вимагає відчутної, фізичної безпеки. Спробуй завжди мати недоторканний фінансовий запас та оточувати себе комфортом — це твоя найкраща броня проти стресів Скорпіона.</p>
+            </div>
+
+            <h3>❤️‍🔥 Кохання та Стосунки</h3>
+            <p>Твоя <strong>Венера у Терезах</strong> шукає гармонію, красу, дипломатію. Але твій <strong>Марс у Скорпіоні</strong> (в 7-му домі партнерства) вказує на те, що тебе приваблюють партнери сильні, інтенсивні, таємничі.</p>
+            
+            <div class="alert">
+                <p><strong>Коучингове питання:</strong> Де проходить межа між здоровою глибиною почуттів і емоційною залежністю?</p>
+            </div>
+
+            <h3>👑 Кар'єра та Визнання</h3>
+            <p>Твій <strong>MC у Козерозі</strong> — це знак амбітного, системного лідера. Сатурн у Водолії в 10-му домі — блискуче положення для людини, яка будує інноваційні системи, керує великими командами.</p>
+        </div>
+
+        <!-- Part 2 -->
+        <div id="part2" class="tab-content">
+            <h2>🕉️ Практична Інструкція до Життя (Vedic Master Guide - Level 2)</h2>
+            <p>Оскільки ти вже відчуваєш негативні (тіньові) сторони свого гороскопу, наше завдання зараз — розібрати, як саме витягнути їх у плюс, де конкретно лежать гроші і як перестати спалювати свою енергію в зоні комфорту.</p>
+
+            <h3>1. ФІНАНСИ: Де лежать гроші і як їх розблокувати?</h3>
+            <p><strong>Астро-база:</strong> Управитель твоїх грошей (Венера) знаходиться в падінні у 6-му домі (борги, рутина). Венера в Діві дає комплекс "самозванця". Ти схильна "служити" клієнтам, давати безкоштовні поради.</p>
+            <ul>
+                <li><strong>Крок 1:</strong> Почни брати гроші за те, що ти зараз робиш як "безкоштовний кризовий менеджер" для друзів.</li>
+                <li><strong>Крок 2:</strong> Венера в Діві бачить деталі. Продавай послугу "наведення порядку" (аудит, налаштування процесів).</li>
+            </ul>
+
+            <div class="alert tip">
+                <p><strong>Упайя:</strong> Свідомо і регулярно витрачай 5-10% доходу на непрактичну красу для себе (квіти, дорогі парфуми, релакс масаж).</p>
+            </div>
+
+            <h3>2. КЕТУ В 3-МУ ДОМІ: Психологія зони комфорту</h3>
+            <p>Близнюки та 3-й дім — це стрічка соцмереж, плітки, дрібні розмови. Це твій "дефолтний режим" для втечі від стресу.</p>
+            <ul>
+                <li><strong>Зміни дієту:</strong> Заміни розважальні ролики на подкасти про психологію, історію чи бізнес-стратегії.</li>
+                <li><strong>Правило "Великої Мети":</strong> Розбий свій великий проект на 100 мікро-задач.</li>
+                <li><strong>Стань транслятором:</strong> Кожного разу, коли дізналася щось нове — запитай себе "Як я можу передати це іншим?". Навчай.</li>
+            </ul>
+
+            <h3>3. КАР'ЄРА: Як запустити Шаша Йогу</h3>
+            <p>У тебе в карті є Шаша Йога — Сатурн у власному знаку в 10-му домі. Вона обіцяє високий статус і владу.</p>
+            <p><strong>Сатурніанське лідерство — це не харизма, це компетентність.</strong> Твій кар'єрний прорив станеться в той день, коли ти змусиш себе делегувати роботу і свідомо дозволиш підлеглому зробити помилку.</p>
+        </div>
+
+        <!-- Part 3 -->
+        <div id="part3" class="tab-content">
+            <h2>🤫 Секрети та Лайфхаки: Накшатри (Level 3)</h2>
+            <p>Це найдавніший і найглибший рівень Ведичної астрології, який показує неочевидні речі, "чіт-коди" до твоєї психіки та тіла.</p>
+
+            <h3>🔪 1. Секрет емоційного спокою (Кріттіка)</h3>
+            <p>Твій Місяць знаходиться в сузір'ї Кріттіка (Лезо, ніж, вогонь).</p>
+            <ul>
+                <li><strong>Ріж, щоб заспокоїтись:</strong> Коли ти в стресі — безжалісно викидай старі речі, чисти контакти в телефоні.</li>
+                <li><strong>Монетизація гострого язика:</strong> Твоя прямолінійність ідеальна для аудиту. Тобі треба платити за те, щоб ти прийшла і "порізала" погані процеси.</li>
+            </ul>
+
+            <h3>✋ 2. Де лежать гроші фізично? (Хаста)</h3>
+            <p>Твоя Венера стоїть у накшатрі Хаста (Відкрита долоня, кулак).</p>
+            <ul>
+                <li><strong>Гроші в руках:</strong> Твій фінансовий потік розблоковується через дрібну моторику (шиття, малювання, масаж). Що більше працюють пальці, то швидше приходять гроші.</li>
+            </ul>
+
+            <h3>🏎️ 3. Як швидко відновити енергію? (Ашвіні)</h3>
+            <p>Твій Асцендент в Ашвіні (Голова коня, вершник).</p>
+            <ul>
+                <li><strong>Лікування швидкістю:</strong> Якщо відчуваєш вигорання, твої ліки — це ШВИДКІСТЬ. Швидка їзда, різка зміна обстановки.</li>
+                <li><strong>Стартап-енергія:</strong> Ти геніальна у запуску проектів з нуля. Запустила — делегувала рутину — пішла запускати нове.</li>
+            </ul>
+
+            <h3>🌪️ 4. Суперздібність у кризах (Ардра)</h3>
+            <p>Твій Кету в Ардрі (Сльоза, буря, руйнування).</p>
+            <ul>
+                <li><strong>Володарка Хаосу:</strong> Твій ідеальний формат — антикризовий менеджер. Ти живишся енергією бурі.</li>
+            </ul>
+        </div>
+
+        <!-- Part 4 -->
+        <div id="part4" class="tab-content">
+            <h2>🔮 Прихована Матриця: Лайфхаки для "своїх" (Level 4)</h2>
+            <p>Це рівень, де зашита найглибша карма і специфічні "налаштування" твоєї психіки.</p>
+
+            <h3>👁️ Вбудований "Рентген" (Будхадітья Йога)</h3>
+            <p>У твоєму 8-му домі (чужі таємниці) з'єдналися Сонце та Меркурій у Скорпіоні.</p>
+            <p><strong>Лайфхак:</strong> Ти бачиш гнилизну людей. Ніколи не ігноруй свою першу підозрілу думку. Ти ідеальний "профайлер", аудитор або слідчий.</p>
+
+            <h3>🌊 Водяне Охолодження (Атмакарака)</h3>
+            <p>Твоя Планета Душі — Місяць у вогняному Овні (29 градусів). Ти нагріваєшся за секунду.</p>
+            <p><strong>Лайфхак:</strong> Твій єдиний спосіб швидко перезавантажити нервову систему — це вода. Відчуваєш, що закипаєш — вмий обличчя холодною водою. Вода фізично гасить твій кармічний пожежний Місяць.</p>
+
+            <h3>🗣️ Планета Кар'єри (Аматьякарака)</h3>
+            <p>Меркурій у Скорпіоні у 8-му домі.</p>
+            <p><strong>Лайфхак:</strong> Твій успіх прийде через інтелект та вміння говорити/писати. Твої слова гіпнотичні, коли ти говориш про складні, глибокі або "заборонені" теми. Почни писати лонгріди.</p>
+            
+            <h3>⚙️ Енергія "Фенікса" (Марс у Скорпіоні)</h3>
+            <p>Коли все добре і спокійно, ти починаєш деградувати. Коли стається катастрофа — ти миттєво збираєшся.</p>
+            <p><strong>Лайфхак:</strong> Створюй мікро-кризи сама для себе. Став нереальні дедлайни, щоб увімкнути адреналін в роботі.</p>
+        </div>
+
+        <!-- Part 5 -->
+        <div id="part5" class="tab-content">
+            <h2>🚀 Розбір Парадоксів (Final Boss Secrets)</h2>
+            <p>Ось як поєднати парадокси твоєї карти.</p>
+
+            <h3>🧩 ПАРАДОКС: "Вічний Стартапер" та "Людина-Система"</h3>
+            <p>Ашвіні хоче все швидко, Сатурн хоче довготривалості.</p>
+            <p><strong>Золотий перетин:</strong> Ти створюєш ОДНЕ агентство або глобальну професію (Сатурн). Але кожного місяця береш нового клієнта, влітаєш в його бізнес (швидкість Ашвіні), вирішуєш кризу і делегуєш підлеглим. Сатурн росте, Ашвіні кайфує від новизни.</p>
+
+            <h3>🏎️ Секрет Швидкості (Марс у 8 домі)</h3>
+            <p>Ти обожнюєш швидкість, але 8-й дім — це дім аварій.</p>
+            <div class="alert warning">
+                <p><strong>Лайфхак:</strong> Тобі можна і треба їздити швидко, але екологічно! Картингові траси, курси екстремального водіння. Тілу треба давати легальний екстрим, інакше енергія зруйнує тебе зсередини.</p>
+            </div>
+
+            <h3>🤫 "Сліпа Зона": 12-й дім у Рибах</h3>
+            <p>Твій мозок ніколи не замовкає, ти можеш страждати на безсоння.</p>
+            <p><strong>Лайфхак для сну:</strong> Твій ритуал сну — гаряча ванна, ароматерапія, ембієнт. Жодних соцмереж перед сном. Тобі потрібен день повної ізоляції раз на місяць біля води.</p>
+
+            <h3>🎓 Кармічний страх "Самозванця в освіті"</h3>
+            <p>Раху в 9 домі. Ти можеш думати, що тобі бракує дипломів.</p>
+            <p><strong>Лайфхак:</strong> Пурва Ашадха означає "Та, що не потребує доведень". Твій досвід і інтуїція вартують більше ніж дипломи. Почни створювати свою власну методологію. Ти сама собі Гуру.</p>
+        </div>
+    </main>
+
+    <script>
+        document.querySelectorAll('.tab-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons and contents
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                button.classList.add('active');
+                document.getElementById(button.dataset.target).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
