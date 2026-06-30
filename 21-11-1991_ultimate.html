@@ -38,12 +38,12 @@
             z-index: -1; overflow: hidden; pointer-events: none;
         }
         .orb {
-            position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.3;
+            position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.15;
             animation: float 20s infinite ease-in-out alternate;
         }
-        .orb-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: var(--accent-purple); animation-delay: 0s; }
-        .orb-2 { bottom: -20%; right: -10%; width: 60vw; height: 60vw; background: rgba(212, 175, 55, 0.4); animation-delay: -5s; }
-        .orb-3 { top: 40%; left: 60%; width: 40vw; height: 40vw; background: rgba(16, 185, 129, 0.2); animation-delay: -10s; }
+        .orb-1 { top: -15%; left: -5%; width: 35vw; height: 35vw; background: var(--accent-purple); animation-delay: 0s; }
+        .orb-2 { bottom: -15%; right: -5%; width: 40vw; height: 40vw; background: rgba(212, 175, 55, 0.3); animation-delay: -5s; }
+        .orb-3 { top: 50%; left: 50%; width: 25vw; height: 25vw; background: rgba(16, 185, 129, 0.15); animation-delay: -10s; }
 
         @keyframes float {
             0% { transform: translate(0, 0) scale(1); }
@@ -51,7 +51,7 @@
         }
 
         /* Layout */
-        .container { display: flex; justify-content: center; max-width: 1400px; margin: 0 auto; padding: 2rem 1rem; gap: 3rem; }
+        .container { display: flex; justify-content: center; max-width: 1100px; margin: 0 auto; padding: 2rem 2rem; gap: 2.5rem; }
         
         /* Navigation (Floating Sidebar) */
         .sidebar {
@@ -74,7 +74,7 @@
         .nav-icon { font-size: 1.2rem; }
 
         /* Main Content */
-        .content { flex: 1; max-width: 800px; }
+        .content { flex: 1; min-width: 0; }
         
         /* Header */
         .hero { text-align: center; margin-bottom: 4rem; padding-top: 2rem; }
