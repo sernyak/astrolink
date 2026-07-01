@@ -52,18 +52,23 @@
 
         /* Layout */
         .container { 
-            display: grid; 
-            grid-template-columns: 240px 1fr; 
+            display: flex; 
+            flex-direction: row; 
+            align-items: flex-start;
             justify-content: center;
-            align-items: start;
+            flex-wrap: nowrap;
             gap: 2.5rem; 
             max-width: 1200px; 
+            width: 100%;
             margin: 0 auto; 
-            padding: 2rem 2rem; 
+            padding: 2rem; 
         }
         
         /* Navigation (Floating Sidebar) */
         .sidebar {
+            flex: 0 0 240px;
+            width: 240px;
+            max-width: 240px;
             position: sticky; top: 2rem; height: max-content; z-index: 50;
             background: rgba(10, 10, 15, 0.6); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
             border: 1px solid var(--border); border-radius: 20px; padding: 1.5rem;
@@ -83,7 +88,12 @@
         .nav-icon { font-size: 1.2rem; }
 
         /* Main Content */
-        .content { min-width: 0; width: 100%; }
+        .content { 
+            flex: 1 1 0%;
+            min-width: 0; 
+            max-width: calc(100% - 240px - 2.5rem);
+            width: 100%; 
+        }
         
         /* Header */
         .hero { text-align: center; margin-bottom: 4rem; padding-top: 2rem; }
