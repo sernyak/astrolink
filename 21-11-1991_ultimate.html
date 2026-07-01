@@ -76,22 +76,19 @@
         }
         .sidebar-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 1rem; }
         .nav-link {
-            color: var(--text-muted); text-decoration: none; font-size: 0.95rem;
-            padding: 0.75rem 1rem; border-radius: 12px; transition: all 0.3s ease;
-            display: flex; align-items: center; gap: 0.75rem; border: 1px solid transparent;
+            display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem;
+            color: var(--text-muted); text-decoration: none; border-radius: 12px;
+            transition: all 0.3s ease; font-size: 0.95rem; font-weight: 500;
         }
-        .nav-link:hover { color: var(--text-main); background: rgba(255,255,255,0.05); }
-        .nav-link.active {
-            color: var(--text-main); background: rgba(139, 92, 246, 0.15);
-            border-color: rgba(139, 92, 246, 0.3); font-weight: 600;
-        }
-        .nav-icon { font-size: 1.2rem; }
+        .nav-link:hover { background: rgba(255,255,255,0.05); color: #fff; }
+        .nav-link.active { background: rgba(139, 92, 246, 0.15); color: #fff; border-left: 3px solid var(--accent-purple); }
+        .nav-icon { font-size: 1.1rem; }
 
         /* Main Content */
         .content { 
-            flex: 1 1 0%;
+            flex: 1;
             min-width: 0; 
-            max-width: calc(100% - 240px - 2.5rem);
+            max-width: 850px;
             width: 100%; 
         }
         
@@ -163,9 +160,18 @@
         .mobile-nav { display: none; }
 
         @media (max-width: 992px) {
-            .container { display: flex; flex-direction: column; padding: 0.5rem; gap: 1.5rem; padding-bottom: 6rem; }
-            .sidebar { display: none; }
-            .content { width: 100%; }
+            .container { 
+                flex-direction: column !important; 
+                padding: 1rem !important; 
+                gap: 1.5rem !important; 
+                align-items: stretch !important;
+            }
+            .sidebar { display: none !important; }
+            .content { 
+                max-width: none !important; 
+                width: 100% !important; 
+                margin: 0 !important; 
+            }
 
             /* Reduce card padding on mobile */
             .card { padding: 1.2rem; border-radius: 14px; }
